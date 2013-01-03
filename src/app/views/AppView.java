@@ -5,7 +5,7 @@
 
 package app.views;
 
-import core.View;
+import core.mvc.View;
 
 /**
  *

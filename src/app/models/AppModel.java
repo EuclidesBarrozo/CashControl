@@ -5,7 +5,7 @@
 
 package app.models;
 
-import core.Model;
+import core.mvc.Model;
 
 /**
  *
