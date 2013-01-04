@@ -17,23 +17,44 @@ public abstract class HasOne extends ModelType {
 	protected String[] hasOne;
 	
 	@Override
-	public boolean save(LinkedArray param) {
-		data = param;
-		LinkedArray complements = checkoutForComplements(hasOne);
-		
-		if (isValid(data)) {
-			
-			LinkedArray complement = (LinkedArray) data.extract(hasOne);
-		
-			if (super.save(data)) {
-				Integer id = recoverPrimaryKey(data);
-				complement.add(foreignKey, id);
-				useModel(hasOne);
-				return model.save(complement);
+	protected boolean saveComplements(Integer id, LinkedArray complements) {
+		LinkedArray saveSucess = new LinkedArray();
+
+		for (int i = 0; i < hasOne.length; i++) {
+			if (complements.containsKey(hasOne[i])) {
+				LinkedArray complement = (LinkedArray) complements.get(hasOne[i]);
+
+				if ( ! complement.containsKey(foreignKey))
+					complement.add(foreignKey, id);
+
+				useModel(hasOne[i]);
+				saveSucess.add(hasOne[i], Boolean.valueOf(model.save(complement)));
 			}
-			return false;
 		}
-		return super.save(data);
+
+		int sucess = 0;
+		for (int i = 0; i < saveSucess.size(); i++)
+			if ((Boolean) saveSucess.getValueByIndex(i))
+				sucess++;
+			else
+				System.out.println("Failure to save data in " + saveSucess.getKeyByIndex(i));
+
+		return sucess == saveSucess.size();
+	}
+	
+	
+	
+	@Override
+	public boolean save(LinkedArray params) {
+		LinkedArray complements;
+		
+		data = params;
+		complements = checkoutForComplements(hasOne);
+		
+		if (super.save(data))
+			return saveComplements(recoverPrimaryKey(data), complements);
+		else
+			return false;
 	}
 	
 	@Override

@@ -104,19 +104,8 @@ public abstract class ModelType extends Model {
 		return complements.isEmpty()? null : complements;
 	}
 	
-	protected boolean saveComplements(String[] modelsList) {
-		LinkedArray complements = checkoutForComplements(modelsList);
-		LinkedArray saveSucess  = new LinkedArray();
-		
-		for (int i = 0; i < modelsList.length; i++) {
-			if (complements.containsKey(modelsList[i])) {
-				LinkedArray complement = (LinkedArray) complements.get(modelsList[i]);
-				useModel(modelsList[i]);
-				saveSucess.add(modelsList[i], model.save(complement));
-			}
-		}
-		
-		return false;
-	}
+	protected abstract boolean saveComplements(Integer id, LinkedArray complements);
+//	protected abstract LinkedArray getComplements();
+//	protected abstract boolean deleteComplements();
 	
 }
