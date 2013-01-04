@@ -16,27 +16,16 @@ public abstract class HasOne extends ModelType {
 
 	protected String hasOne;
 	
-	protected HasOne() {
-		hasOne = getTable(hasOne);
-		setPrefix(getTable() + "_");
-	}
-	
 	@Override
 	public boolean save(LinkedArray data) {
-		if (data.containsKey(modelName(hasOne))) {
-			LinkedArray section = (LinkedArray) data.extract(modelName(hasOne));
+		if (data.containsKey(hasOne) && isValid((LinkedArray) data.get(hasOne))) {
+			LinkedArray complement = (LinkedArray) data.extract(hasOne);
 		
 			if (super.save(data)) {
-				Integer id = data.containsKey(primaryKey)? (Integer) data.get(primaryKey) : recoverId(data);
-				section.add(foreignKey, id);
-				setTable(hasOne);
-				
-				if (super.save(section)) {
-					resetTable();
-					return true;
-				}
-				resetTable();
-				return false;
+				Integer id = recoverPrimaryKey(data);
+				complement.add(foreignKey, id);
+				useModel(hasOne);
+				return model.save(complement);
 			}
 			return false;
 		}
@@ -47,13 +36,14 @@ public abstract class HasOne extends ModelType {
 	public LinkedArray all() {
 		LinkedArray data = super.all();
 		
+		useModel(hasOne);
+		
 		for (int i = 0; i < data.size(); i++) {
-			LinkedArray tmp = (LinkedArray) data.getValueByIndex(i);
+			LinkedArray tmp = (LinkedArray) data.get(i);	
+			LinkedArray complement = model.firstBy(foreignKey + " = " + "'" + tmp.get(primaryKey) + "'");
 			
-			setTable(hasOne);
-			String condition = foreignKey + " = " + "'" + tmp.get(primaryKey) + "'";
-			tmp.add(modelName(hasOne), super.firstBy(condition));
-			resetTable();
+			if (isValid(complement))
+				tmp.add(hasOne, complement);
 			
 			data.add(i, tmp);
 		}
@@ -65,13 +55,14 @@ public abstract class HasOne extends ModelType {
 	public LinkedArray all(String options) {
 		LinkedArray data = super.all(options);
 		
+		useModel(hasOne);
+		
 		for (int i = 0; i < data.size(); i++) {
 			LinkedArray tmp = (LinkedArray) data.getValueByIndex(i);
+			LinkedArray complement = model.firstBy(foreignKey + " = " + "'" + tmp.get(primaryKey) + "'");
 			
-			setTable(hasOne);
-			String condition = foreignKey + " = " + "'" + tmp.get(primaryKey) + "'";
-			tmp.add(modelName(hasOne), super.firstBy(condition));
-			resetTable();
+			if (isValid(complement))
+				tmp.add(hasOne, complement);
 			
 			data.add(i, tmp);
 		}
@@ -83,10 +74,12 @@ public abstract class HasOne extends ModelType {
 	public LinkedArray firstBy(String condition) {
 		LinkedArray data = super.firstBy(condition);
 		
-		setTable(hasOne);
-		condition = foreignKey + " = " + "'" + data.get(primaryKey) + "'";
-		data.add(modelName(hasOne), super.firstBy(condition));
-		resetTable();
+		useModel(hasOne);
+		
+		LinkedArray complement = model.firstBy(foreignKey + " = " + "'" + data.get(primaryKey) + "'");
+		
+		if (isValid(complement))
+			data.add(hasOne, complement);
 		
 		return data;
 	}
@@ -95,23 +88,28 @@ public abstract class HasOne extends ModelType {
 	public LinkedArray firstById(Integer id) {
 		LinkedArray data = super.firstById(id);
 		
-		setTable(hasOne);
-		String condition = foreignKey + " = " + "'" + id + "'";
-		data.add(modelName(hasOne), super.firstBy(condition));
-		resetTable();
+		useModel(hasOne);
+		
+		LinkedArray complement = model.firstBy(foreignKey + " = " + "'" + id + "'");
+		
+		if (isValid(complement))
+			data.add(hasOne, complement);
 		
 		return data;
 	}
 	
 	@Override
 	public boolean delete(Integer id) {
+		LinkedArray data = this.firstById(id);
+		
 		if (super.delete(id)) {
-			setTable(hasOne);
-			if (super.delete(foreignKey + " = '" + id + "'")) {
-				resetTable();
-				return true;
+			if (data.containsKey(hasOne) && isValid((LinkedArray) data.get(hasOne))) {
+				useModel(hasOne);
+				LinkedArray complement = (LinkedArray) data.extract(hasOne);
+				return model.delete((Integer) complement.get(model.getPrimaryKey()));
 			}
-			resetTable();
+			else
+				return true;
 		}
 		return false;
 	}
@@ -121,20 +119,9 @@ public abstract class HasOne extends ModelType {
 		LinkedArray allData = this.all(condition);
 		
 		for (int i = 0; i < allData.size(); i++) {
-			LinkedArray data	= (LinkedArray) allData.getValueByIndex(i);
+			LinkedArray data = (LinkedArray) allData.get(i);
 			
-			if (super.delete((Integer) data.get(primaryKey))) {
-				setTable(hasOne);
-				
-				if (super.delete(foreignKey + " = '" + data.get(primaryKey) + "'"))
-					resetTable();
-				
-				else {
-					resetTable();
-					return false;
-				}
-			}
-			else
+			if ( ! this.delete((Integer) data.get(primaryKey)))
 				return false;
 		}
 		

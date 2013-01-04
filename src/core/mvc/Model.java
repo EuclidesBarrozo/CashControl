@@ -149,4 +149,16 @@ public abstract class Model {
 		return null;
 	}
 	
+	protected boolean isValid(Object param) {
+		return param != null;
+	}
+	
+	protected boolean isValid(LinkedArray param) {
+		return ! (param == null && param.isEmpty());
+	}
+	
+	public String getPrimaryKey() {
+		return primaryKey;
+	}
+	
 }

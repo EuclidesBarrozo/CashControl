@@ -157,7 +157,6 @@ public class Database {
 				catch (SQLException exception) {
 					System.out.println("SQL Exception. Failed to execute SQL query!");
 					System.out.println(exception.getMessage());
-					fieldsNum = 0;
 				}
 				
 			}

@@ -18,25 +18,41 @@ public abstract class ModelType extends Model {
 	protected String prefix;
 	protected String sufix;
 	protected String foreignKey;
+	protected Model	 model;
 		
+	
+	public ModelType() {
+		setPrefix(getTable() + "_");
+	}
+	
 	protected String modelName(String table) {
 		return table.substring(0, 1).toUpperCase() + table.substring(1);
 	}
 	
-	protected Integer recoverId(LinkedArray params) {
-		String conditions = "";
+	protected Integer recoverPrimaryKey(LinkedArray params) {
+		Integer id;
 		
-		for (int i = 0; i < params.size(); i++)
-			if (i + 1 < params.size()) {
-				conditions += (String) params.getKeyByIndex(i);
-				conditions += " = '" + (String) params.getValueByIndex(i) + "', ";
-			}
-			else {
-				conditions += (String) params.getKeyByIndex(i);
-				conditions += " = '" + (String) params.getValueByIndex(i) + "'";
+		if (params.containsKey(primaryKey))
+			id = (Integer) params.get(primaryKey);
+		
+		else {
+			String conditions = "";
+
+			for (int i = 0; i < params.size(); i++) {
+				if (i + 1 < params.size()) {
+					conditions += (String) params.getKeyByIndex(i);
+					conditions += " = '" + (String) params.getValueByIndex(i) + "', ";
+				}
+				else {
+					conditions += (String) params.getKeyByIndex(i);
+					conditions += " = '" + (String) params.getValueByIndex(i) + "'";
+				}
 			}
 			
-		return (Integer) firstBy(conditions).get(primaryKey);
+			id = (Integer) firstBy(conditions).get(primaryKey);
+		}
+			
+		return id;
 	}
 	
 	protected void setPrefix(String prefix) {
@@ -57,5 +73,25 @@ public abstract class ModelType extends Model {
 		else
 			foreignKey = primaryKey + "_" + sufix;
 	}
-			
+	
+	protected void useModel(String modelName) {
+		modelName += modelName.equals("App")? "Model" : "";
+		
+		try {
+			model = (Model) Class.forName("app.models." + modelName).newInstance();
+		}
+		catch (ClassNotFoundException exception) {
+			System.out.println("Model '"+ modelName +"' not found!");
+			System.out.println(exception.getMessage());
+		}
+		catch (InstantiationException exception) {
+			System.out.println("Failed to create an instance!");
+			System.out.println(exception.getMessage());
+		}
+		catch (IllegalAccessException exception) {
+			System.out.println("Illegal access!");
+			System.out.println(exception.getMessage());
+		}
+	}
+	
 }
