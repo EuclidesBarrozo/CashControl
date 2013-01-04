@@ -94,4 +94,29 @@ public abstract class ModelType extends Model {
 		}
 	}
 	
+	protected LinkedArray checkoutForComplements(String[] modelsList) {
+		LinkedArray complements = new LinkedArray();
+		
+		for (int i = 0; i < modelsList.length; i++)
+			if (data.containsKey(modelsList[i]))
+				complements.add(modelsList[i], (LinkedArray) data.extract(modelsList));
+		
+		return complements.isEmpty()? null : complements;
+	}
+	
+	protected boolean saveComplements(String[] modelsList) {
+		LinkedArray complements = checkoutForComplements(modelsList);
+		LinkedArray saveSucess  = new LinkedArray();
+		
+		for (int i = 0; i < modelsList.length; i++) {
+			if (complements.containsKey(modelsList[i])) {
+				LinkedArray complement = (LinkedArray) complements.get(modelsList[i]);
+				useModel(modelsList[i]);
+				saveSucess.add(modelsList[i], model.save(complement));
+			}
+		}
+		
+		return false;
+	}
+	
 }

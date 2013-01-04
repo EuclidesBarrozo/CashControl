@@ -14,11 +14,15 @@ import core.dataManipulation.LinkedArray;
  */
 public abstract class HasOne extends ModelType {
 
-	protected String hasOne;
+	protected String[] hasOne;
 	
 	@Override
-	public boolean save(LinkedArray data) {
-		if (data.containsKey(hasOne) && isValid((LinkedArray) data.get(hasOne))) {
+	public boolean save(LinkedArray param) {
+		data = param;
+		LinkedArray complements = checkoutForComplements(hasOne);
+		
+		if (isValid(data)) {
+			
 			LinkedArray complement = (LinkedArray) data.extract(hasOne);
 		
 			if (super.save(data)) {

@@ -23,7 +23,7 @@ public abstract class Model {
 	protected Database db = Database.getConnection();
 	protected String table = getTable();
 	protected String primaryKey = "id";
-//	protected String foreignKey = "";
+	protected LinkedArray data = new LinkedArray();
 	public ComponentsManager components;
 	
 	public boolean save(LinkedArray data) {
