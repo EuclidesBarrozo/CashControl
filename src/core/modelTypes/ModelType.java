@@ -104,8 +104,12 @@ public abstract class ModelType extends Model {
 		return complements.isEmpty()? null : complements;
 	}
 	
-	protected abstract boolean saveComplements(Integer id, LinkedArray complements);
-//	protected abstract LinkedArray getComplements();
-//	protected abstract boolean deleteComplements();
+	public String getForeignKey() {
+		return foreignKey;
+	}
+	
+	protected abstract boolean saveComplements(Integer owner_id, LinkedArray complements);
+	protected abstract LinkedArray getComplements(Integer owner_id);
+	protected abstract boolean deleteComplements(Integer owner_id);
 	
 }

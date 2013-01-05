@@ -24,6 +24,11 @@ public class LinkedArray {
 		return values.isEmpty();
 	}
 	
+	public void merge(LinkedArray linkedArray) {
+		for (int i = 0; i < linkedArray.size(); i++)
+			this.add(linkedArray.getKeyByIndex(i), linkedArray.getValueByIndex(i));
+	}
+	
 	public void add(Object key, Object value) {
 		if ( ! keys.contains(key)) {
 			keys.add(key);
