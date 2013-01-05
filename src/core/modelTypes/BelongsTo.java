@@ -5,6 +5,8 @@
 
 package core.modelTypes;
 
+import core.dataManipulation.LinkedArray;
+
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
@@ -12,4 +14,19 @@ package core.modelTypes;
  */
 public abstract class BelongsTo extends ModelType {
 
+	@Override
+	protected boolean saveComplements(Integer owner_id, LinkedArray complements) {
+		return false;
+	}
+	
+	@Override
+	protected LinkedArray getComplements(Integer owner_id) {
+		return null;
+	}
+	
+	@Override
+	protected boolean deleteComplements(Integer owner_id) {
+		return false;
+	}
+	
 }

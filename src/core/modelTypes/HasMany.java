@@ -13,110 +13,67 @@ import core.dataManipulation.LinkedArray;
  *
  */
 public abstract class HasMany extends ModelType {
-
-	protected String[] hasMany;
 	
 	@Override
-	public boolean save(LinkedArray data) {
-		if (super.save(data)) {
-			Integer id = recoverPrimaryKey(data);
-			
-			for (int i = 0; i < hasMany.length; i++)
-				if (data.containsKey(hasMany[i])) {
-					LinkedArray complement = (LinkedArray) data.extract(hasMany[i]);
-					complement.add(foreignKey, id);
-					
-					useModel(hasMany[i]);
-					
-					if ( ! model.save(complement))
-						return false;
-				}
-		}
-		else
-			return false;
+	protected boolean saveComplements(Integer owner_id, LinkedArray complements) {
+		boolean sucess = true;
 		
-		return true;
-	}
-	
-	@Override
-	public LinkedArray all() {
-		LinkedArray data = super.all();
-		
-		for (int i = 0; i < data.size(); i++) {
-			LinkedArray tmpData = (LinkedArray) data.get(i);
-			Integer id = (Integer) tmpData.get(primaryKey);
-			
-			for (int j = 0; j < hasMany.length; j++) {
-				useModel(hasMany[j]);
-				tmpData.add(hasMany[j], model.all(foreignKey + " = '" + id + "'"));
-			}
-			
-			data.add(i, tmpData);
-		}
-		
-		return data;
-	}
-	
-	@Override
-	public LinkedArray all(String options) {
-		LinkedArray data = super.all();
-		
-		for (int i = 0; i < data.size(); i++) {
-			LinkedArray tmpData = (LinkedArray) data.get(i);
-			Integer id = (Integer) tmpData.get(primaryKey);
-			
-			for (int j = 0; j < hasMany.length; j++) {
-				useModel(hasMany[j]);
-				tmpData.add(hasMany[j], model.all(foreignKey + " = '" + id + "'"));
-			}
-			
-			data.add(i, tmpData);
-		}
-		
-		return data;
-	}
-	
-	@Override
-	public LinkedArray firstBy(String condition) {
-		LinkedArray data = super.firstBy(condition);
-		Integer id = (Integer) data.get(primaryKey);
-		
-		for (int i = 0; i < hasMany.length; i++) {
-			useModel(hasMany[i]);
-			data.add(hasMany[i], model.all(foreignKey + " = '" + id + "'"));
-		}
-		
-		return data;
-	}
-	
-	@Override
-	public LinkedArray firstById(Integer id) {
-		LinkedArray data = super.firstById(id);
-		
-		for (int i = 0; i < hasMany.length; i++) {
-			useModel(hasMany[i]);
-			data.add(hasMany[i], model.all(foreignKey + " = '" + id + "'"));
-		}
-		
-		return data;
-	}
-	
-	@Override
-	public boolean delete(Integer id) {
-		if (super.delete(id))
-			for (int i = 0; i < hasMany.length; i++) {
+		for (int i = 0; i < models.length; i++)
+			if (complements.containsKey(models[i])) {
+				LinkedArray complement = (LinkedArray) complements.get(models[i]);
 				
+				useModel(models[i]);
+				for (int j = 0; j < complement.size(); j++) {
+					LinkedArray part = (LinkedArray) complement.get(i);
+					
+					if ( ! part.containsKey(foreignKey))
+						part.add(foreignKey, owner_id);
+					
+					if ( ! model.save(part)) {
+						System.out.println("Failed to save data in " + models[i]);
+						sucess = false;
+					}
+				}
 			}
 		
-		else
-			return false;
-		
-		return true;
+		return sucess;
 	}
 	
 	@Override
-	public boolean delete(String condition) {
-		return false;
+	protected LinkedArray getComplements(Integer owner_id) {
+		LinkedArray complements = new LinkedArray();
+		
+		for (int i = 0; i < models.length; i++) {
+			useModel(models[i]);
+			LinkedArray tmp = model.all(foreignKey + " = '" + owner_id + "'");
+			data.add(models[i], tmp);
+		}
+		
+		return complements;
+	}
+	
+	@Override
+	protected boolean deleteComplements(Integer owner_id) {
+		LinkedArray complements = getComplements(owner_id);
+		boolean sucess = true;
+		
+		for (int i = 0; i < models.length; i++)
+			if (complements.containsKey(models[i])) {
+				LinkedArray complement = (LinkedArray) complements.get(models[i]);
+				
+				useModel(models[i]);
+				for (int j = 0; j < complement.size(); j++) {
+					LinkedArray part = (LinkedArray) complement.get(i);
+					Integer part_id  = (Integer) part.get(model.getPrimaryKey());
+					
+					if ( ! model.delete(part_id)) {
+						System.out.println("Failed to delete data in " + models[i]);
+						sucess = false;
+					}
+				}
+			}
+		
+		return sucess;
 	}
 	
 }
