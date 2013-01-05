@@ -23,7 +23,7 @@ public abstract class Model {
 	protected Database db = Database.getConnection();
 	protected String table = getTable();
 	protected String primaryKey = "id";
-//	protected String foreignKey = "";
+	protected LinkedArray data = new LinkedArray();
 	public ComponentsManager components;
 	
 	public boolean save(LinkedArray data) {
@@ -147,6 +147,18 @@ public abstract class Model {
 		}
 		
 		return null;
+	}
+	
+	protected boolean isValid(Object param) {
+		return param != null;
+	}
+	
+	protected boolean isValid(LinkedArray param) {
+		return ! (param == null && param.isEmpty());
+	}
+	
+	public String getPrimaryKey() {
+		return primaryKey;
 	}
 	
 }

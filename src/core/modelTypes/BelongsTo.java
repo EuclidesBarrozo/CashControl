@@ -15,24 +15,18 @@ import core.dataManipulation.LinkedArray;
 public abstract class BelongsTo extends ModelType {
 
 	@Override
-	public boolean save(LinkedArray data) { return false; }
+	protected boolean saveComplements(Integer owner_id, LinkedArray complements) {
+		return false;
+	}
 	
 	@Override
-	public LinkedArray all() { return null; }
+	protected LinkedArray getComplements(Integer owner_id) {
+		return null;
+	}
 	
 	@Override
-	public LinkedArray all(String options) { return null; }
-	
-	@Override
-	public LinkedArray firstBy(String condition) { return null;	}
-	
-	@Override
-	public LinkedArray firstById(Integer id) { return null; }
-	
-	@Override
-	public boolean delete(Integer id) { return false; }
-	
-	@Override
-	public boolean delete(String condition) { return false; }
+	protected boolean deleteComplements(Integer owner_id) {
+		return false;
+	}
 	
 }

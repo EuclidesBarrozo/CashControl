@@ -13,132 +13,70 @@ import core.dataManipulation.LinkedArray;
  *
  */
 public abstract class HasOne extends ModelType {
+	
+	@Override
+	protected boolean saveComplements(Integer owner_id, LinkedArray complements) {
+		LinkedArray saveSucess = new LinkedArray();
 
-	protected String hasOne;
-	
-	protected HasOne() {
-		hasOne = getTable(hasOne);
-		setPrefix(getTable() + "_");
-	}
-	
-	@Override
-	public boolean save(LinkedArray data) {
-		if (data.containsKey(modelName(hasOne))) {
-			LinkedArray section = (LinkedArray) data.extract(modelName(hasOne));
-		
-			if (super.save(data)) {
-				Integer id = data.containsKey(primaryKey)? (Integer) data.get(primaryKey) : recoverId(data);
-				section.add(foreignKey, id);
-				setTable(hasOne);
-				
-				if (super.save(section)) {
-					resetTable();
-					return true;
-				}
-				resetTable();
-				return false;
+		for (int i = 0; i < models.length; i++)
+			if (complements.containsKey(models[i])) {
+				LinkedArray complement = (LinkedArray) complements.get(models[i]);
+
+				if ( ! complement.containsKey(foreignKey))
+					complement.add(foreignKey, owner_id);
+
+				useModel(models[i]);
+				saveSucess.add(models[i], Boolean.valueOf(model.save(complement)));
 			}
-			return false;
-		}
-		return super.save(data);
-	}
-	
-	@Override
-	public LinkedArray all() {
-		LinkedArray data = super.all();
-		
-		for (int i = 0; i < data.size(); i++) {
-			LinkedArray tmp = (LinkedArray) data.getValueByIndex(i);
-			
-			setTable(hasOne);
-			String condition = foreignKey + " = " + "'" + tmp.get(primaryKey) + "'";
-			tmp.add(modelName(hasOne), super.firstBy(condition));
-			resetTable();
-			
-			data.add(i, tmp);
-		}
-		
-		return data;
-	}
-	
-	@Override
-	public LinkedArray all(String options) {
-		LinkedArray data = super.all(options);
-		
-		for (int i = 0; i < data.size(); i++) {
-			LinkedArray tmp = (LinkedArray) data.getValueByIndex(i);
-			
-			setTable(hasOne);
-			String condition = foreignKey + " = " + "'" + tmp.get(primaryKey) + "'";
-			tmp.add(modelName(hasOne), super.firstBy(condition));
-			resetTable();
-			
-			data.add(i, tmp);
-		}
-		
-		return data;
-	}
-	
-	@Override
-	public LinkedArray firstBy(String condition) {
-		LinkedArray data = super.firstBy(condition);
-		
-		setTable(hasOne);
-		condition = foreignKey + " = " + "'" + data.get(primaryKey) + "'";
-		data.add(modelName(hasOne), super.firstBy(condition));
-		resetTable();
-		
-		return data;
-	}
-	
-	@Override
-	public LinkedArray firstById(Integer id) {
-		LinkedArray data = super.firstById(id);
-		
-		setTable(hasOne);
-		String condition = foreignKey + " = " + "'" + id + "'";
-		data.add(modelName(hasOne), super.firstBy(condition));
-		resetTable();
-		
-		return data;
-	}
-	
-	@Override
-	public boolean delete(Integer id) {
-		if (super.delete(id)) {
-			setTable(hasOne);
-			if (super.delete(foreignKey + " = '" + id + "'")) {
-				resetTable();
-				return true;
-			}
-			resetTable();
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean delete(String condition) {
-		LinkedArray allData = this.all(condition);
-		
-		for (int i = 0; i < allData.size(); i++) {
-			LinkedArray data	= (LinkedArray) allData.getValueByIndex(i);
-			
-			if (super.delete((Integer) data.get(primaryKey))) {
-				setTable(hasOne);
-				
-				if (super.delete(foreignKey + " = '" + data.get(primaryKey) + "'"))
-					resetTable();
-				
-				else {
-					resetTable();
-					return false;
-				}
-			}
+
+		int sucess = 0;
+		for (int i = 0; i < saveSucess.size(); i++)
+			if ((Boolean) saveSucess.getValueByIndex(i))
+				sucess++;
 			else
-				return false;
+				System.out.println("Failed to save data in " + saveSucess.getKeyByIndex(i));
+
+		return sucess == saveSucess.size();
+	}
+	
+	@Override
+	protected LinkedArray getComplements(Integer owner_id) {
+		LinkedArray complements = new LinkedArray();
+		
+		for (int i = 0; i < models.length; i++) {
+			useModel(models[i]);
+			LinkedArray tmp = model.firstBy(foreignKey + " = '" + owner_id + "'");
+			data.add(models[i], tmp);
 		}
 		
-		return true;
+		return complements;
+	}
+	
+	@Override
+	protected boolean deleteComplements(Integer owner_id) {
+		LinkedArray deleteSucess = new LinkedArray();
+		LinkedArray complements  = getComplements(owner_id);
+
+		for (int i = 0; i < models.length; i++)
+			if (complements.containsKey(models[i])) {
+				LinkedArray complement = (LinkedArray) complements.get(models[i]);
+
+				if ( ! complement.containsKey(foreignKey))
+					complement.add(foreignKey, owner_id);
+
+				useModel(models[i]);
+				Integer complement_id = (Integer) complement.get(model.getPrimaryKey());
+				deleteSucess.add(models[i], Boolean.valueOf(model.delete(complement_id)));
+			}
+
+		int sucess = 0;
+		for (int i = 0; i < deleteSucess.size(); i++)
+			if ((Boolean) deleteSucess.getValueByIndex(i))
+				sucess++;
+			else
+				System.out.println("Failed to delete data in " + deleteSucess.getKeyByIndex(i));
+
+		return sucess == deleteSucess.size();
 	}
 	
 }
