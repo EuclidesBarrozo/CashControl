@@ -5,6 +5,8 @@
 
 package app.controllers;
 
+import core.dataManipulation.LinkedArray;
+
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
@@ -12,13 +14,11 @@ package app.controllers;
  */
 public class EmailsController extends AppController {
 
-	public void create() {
-		if ( ! data.isEmpty()) {
-			System.out.println("Dados recebidos!");
-			System.out.println((String) data.get("email"));
-		}
-		else
+	public LinkedArray create() {
+		if (data.isEmpty())
 			display("create");
+		
+		return data.isEmpty()? null : data;
 	}
 	
 }

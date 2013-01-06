@@ -101,9 +101,11 @@ public class CreateView extends AppView {
 	}//GEN-LAST:event_cancelButtonActionPerformed
 
 	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-		data.add("email", email.getText());
-		updateController();
-		dispose();
+		if ( ! email.getText().equals("")) {
+			data.add("email", email.getText());
+			updateController();
+			dispose();
+		}
 	}//GEN-LAST:event_okButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
