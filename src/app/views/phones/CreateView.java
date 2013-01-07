@@ -106,7 +106,10 @@ public class CreateView extends AppView {
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
-           if ( ! phone.getText().equals("")) {}
+           if ( ! phone.getText().equals("")) {
+                  data.add("phone", phone.getText());
+                  dispose();
+           }
     }//GEN-LAST:event_okActionPerformed
 
     

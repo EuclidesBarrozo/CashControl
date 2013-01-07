@@ -4,12 +4,14 @@
  */
 package app.controllers;
 
+import core.dataManipulation.LinkedArray;
+
 /**
  *
  * @author Eduardo Jr
  */
 public class PhonesController extends AppController{
-    public void create(){
+   /*public void create(){
         if ( ! data.isEmpty()) {
            System.out.println("Dados recebidos!");		
            System.out.println((String) data.get("phone"));
@@ -17,6 +19,18 @@ public class PhonesController extends AppController{
         else{
 	   display("create");
         }
+     *
+     * @return
+     */
+    public LinkedArray create() {
+            if ( ! data.isEmpty()) {
+                System.out.println("Dados recebidos!");		
+                System.out.println((String) data.get("phone"));
+            }
+            if (data.isEmpty()){
+		display("create");
+            }
+		
+		return data.isEmpty()? null : data;
     }
-    
 }
