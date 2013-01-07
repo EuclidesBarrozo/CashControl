@@ -15,7 +15,8 @@ public class AppController extends Controller {
 	
 	
 	public void main() {
-		display("main");
+//              display("main");
+                new PhonesController().create();
 	}
 	
 }
