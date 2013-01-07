@@ -134,6 +134,10 @@ public abstract class Controller {
 		this.data = data;
 	}
 	
+	public LinkedArray getData() {
+		return data;
+	}
+	
 	public void resetData() {
 		data.reset();
 	}

@@ -3,15 +3,19 @@
  * and open the template in the editor.
  */
 
-package app.models;
+package app.controllers;
 
-import core.modelTypes.HasOne;
+import core.dataManipulation.LinkedArray;
 
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class AppModel extends HasOne {
+public class UsersController extends PeopleController {
+
+	public LinkedArray getData() {
+		return data;
+	}
 	
 }

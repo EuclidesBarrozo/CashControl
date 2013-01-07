@@ -15,7 +15,7 @@ import core.dataManipulation.LinkedArray;
 public abstract class HasOne extends ModelType {
 	
 	@Override
-	protected boolean saveComplements(Integer owner_id, LinkedArray complements) {
+	public boolean saveComplements(Integer owner_id, LinkedArray complements) {
 		LinkedArray saveSucess = new LinkedArray();
 
 		for (int i = 0; i < models.length; i++)
@@ -40,7 +40,7 @@ public abstract class HasOne extends ModelType {
 	}
 	
 	@Override
-	protected LinkedArray getComplements(Integer owner_id) {
+	public LinkedArray getComplements(Integer owner_id) {
 		LinkedArray complements = new LinkedArray();
 		
 		for (int i = 0; i < models.length; i++) {
@@ -53,7 +53,7 @@ public abstract class HasOne extends ModelType {
 	}
 	
 	@Override
-	protected boolean deleteComplements(Integer owner_id) {
+	public boolean deleteComplements(Integer owner_id) {
 		LinkedArray deleteSucess = new LinkedArray();
 		LinkedArray complements  = getComplements(owner_id);
 

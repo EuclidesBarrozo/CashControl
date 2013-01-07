@@ -5,13 +5,11 @@
 
 package app.models;
 
-import core.modelTypes.HasOne;
-
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class AppModel extends HasOne {
-	
+public class Users extends People {
+
 }

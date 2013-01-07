@@ -5,13 +5,17 @@
 
 package app.models;
 
+import core.modelTypes.BelongsTo;
+
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class Emails extends AppModel {
+public class Emails extends BelongsTo {
 
-	
+	public Emails() {
+		models = new String[] {"People"};
+	}
 	
 }

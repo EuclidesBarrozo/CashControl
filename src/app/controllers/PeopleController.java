@@ -12,6 +12,19 @@ package app.controllers;
  */
 public abstract class PeopleController extends AppController {
 
+	public void create() {}
+	public void read(Integer id) {}
+	public void update(Integer id) {}
+	public void delete(Integer id) {}
+	
+	public void newEmail() {
+		new EmailsController().create(this);
+	}
+	
+	
+	public void getEmails() {
+		
+	}
 	
 	
 }

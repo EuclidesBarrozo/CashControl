@@ -15,7 +15,7 @@ import core.dataManipulation.LinkedArray;
 public abstract class HasMany extends ModelType {
 	
 	@Override
-	protected boolean saveComplements(Integer owner_id, LinkedArray complements) {
+	public boolean saveComplements(Integer owner_id, LinkedArray complements) {
 		boolean sucess = true;
 		
 		for (int i = 0; i < models.length; i++)
@@ -40,7 +40,7 @@ public abstract class HasMany extends ModelType {
 	}
 	
 	@Override
-	protected LinkedArray getComplements(Integer owner_id) {
+	public LinkedArray getComplements(Integer owner_id) {
 		LinkedArray complements = new LinkedArray();
 		
 		for (int i = 0; i < models.length; i++) {
@@ -53,7 +53,7 @@ public abstract class HasMany extends ModelType {
 	}
 	
 	@Override
-	protected boolean deleteComplements(Integer owner_id) {
+	public boolean deleteComplements(Integer owner_id) {
 		LinkedArray complements = getComplements(owner_id);
 		boolean sucess = true;
 		

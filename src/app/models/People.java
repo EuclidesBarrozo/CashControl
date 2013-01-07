@@ -12,10 +12,10 @@ import core.modelTypes.HasMany;
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public abstract class People extends HasMany {
+public class People extends HasMany {
 
 	public People() {
-		models = new String[] {"Phones","Emails","Adresses"};
+		models = new String[] {"Emails"};
 	}
 	
 }

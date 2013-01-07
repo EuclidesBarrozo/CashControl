@@ -5,8 +5,6 @@
 
 package app.controllers;
 
-import core.dataManipulation.LinkedArray;
-
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
@@ -14,11 +12,14 @@ import core.dataManipulation.LinkedArray;
  */
 public class EmailsController extends AppController {
 
-	public LinkedArray create() {
+	public void create(PeopleController people) {
 		if (data.isEmpty())
 			display("create");
 		
-		return data.isEmpty()? null : data;
+		else {
+			model.setController(people);
+			model.saveComplements(null, people.getData());
+		}
 	}
 	
 }

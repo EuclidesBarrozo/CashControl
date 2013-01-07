@@ -41,6 +41,20 @@ public class LinkedArray {
 		}
 	}
 	
+	public void put(Object value) {
+		boolean added = false;
+		
+		for (int i = 0; i < this.size(); i++)
+			if ( ! this.containsKey(i)) {
+				this.add(i, value);
+				added = true;
+				break;
+			}
+		
+		if ( ! added)
+			this.add(this.size(), value);
+	}
+	
 	public void remove(Object key) {
 		removeByKey(key);
 	}

@@ -16,7 +16,12 @@ public class AppController extends Controller {
 	
 	public void main() {
 //		display("main");
-		new EmailsController().create();
+		UsersController users = new UsersController();
+		users.newEmail();
+//		data = users.getData();
+//		
+//		if (data.containsKey("Emails"))
+//			System.out.println("Os dados estão em Users!"); 
 	}
 	
 }
