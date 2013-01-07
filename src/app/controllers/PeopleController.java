@@ -5,18 +5,13 @@
 
 package app.controllers;
 
-import core.mvc.Controller;
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class AppController extends Controller {
+public abstract class PeopleController extends AppController {
+
 	
-	
-	public void main() {
-//		display("main");
-		new EmailsController().create();
-	}
 	
 }

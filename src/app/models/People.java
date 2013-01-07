@@ -3,20 +3,19 @@
  * and open the template in the editor.
  */
 
-package app.controllers;
+package app.models;
 
-import core.mvc.Controller;
+import core.modelTypes.HasMany;
+
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class AppController extends Controller {
-	
-	
-	public void main() {
-//		display("main");
-		new EmailsController().create();
+public abstract class People extends HasMany {
+
+	public People() {
+		models = new String[] {"Phones","Emails","Adresses"};
 	}
 	
 }
