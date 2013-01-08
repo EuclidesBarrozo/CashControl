@@ -15,8 +15,6 @@ public class AppController extends Controller {
 
 	
 	public void main() {
-//              display("main");
-                new PhonesController().create();
 //		display("main");
 		UsersController users = new UsersController();
 		users.newEmail();

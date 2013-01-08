@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 public abstract class Controller {
 	
 	protected Model model;
+	protected Controller controllerAux;
 	protected LinkedArray views	= new LinkedArray();
 	protected LinkedArray data	= new LinkedArray();
 	public ComponentsManager components;
@@ -201,6 +202,14 @@ public abstract class Controller {
 			
 			return null;
 		}
+	}
+	
+	protected void setControllerAux(Controller aux) {
+		controllerAux = aux;
+	}
+	
+	protected Controller getControllerAux() {
+		return controllerAux;
 	}
 	
 }

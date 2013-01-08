@@ -18,7 +18,13 @@ public abstract class PeopleController extends AppController {
 	public void delete(Integer id) {}
 	
 	public void newEmail() {
-		new EmailsController().create(this);
+		/**
+		 * 
+		 * Resolver problema de controller auxiliar.
+		 * 
+		 */
+		
+		EmailsController emails = new EmailsController();
 	}
 	
 	

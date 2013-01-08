@@ -23,13 +23,13 @@ public class PhonesController extends AppController{
      * @return
      */
     public LinkedArray create() {
-            if ( ! data.isEmpty()) {
-                System.out.println("Dados recebidos!");		
-                System.out.println((String) data.get("phone"));
-            }
-            if (data.isEmpty()){
-		display("create");
-            }
+        if ( ! data.isEmpty()) {
+            System.out.println("Dados recebidos!");		
+            System.out.println((String) data.get("phone"));
+        }
+		if (data.isEmpty()){
+			display("create");
+        }
 		
 		return data.isEmpty()? null : data;
     }
