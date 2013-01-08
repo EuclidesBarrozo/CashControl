@@ -12,11 +12,12 @@ import core.mvc.Controller;
  *
  */
 public class AppController extends Controller {
-	
+
 	
 	public void main() {
+//              display("main");
+                new PhonesController().create();
 //		display("main");
 		new EmailsController().create();
 	}
-	
 }
