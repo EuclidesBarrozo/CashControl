@@ -7,8 +7,6 @@ package core.mvc;
 
 import core.components.ComponentsManager;
 import core.dataManipulation.LinkedArray;
-import core.mvc.Model;
-import core.mvc.View;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 /**
@@ -19,10 +17,10 @@ import java.lang.reflect.Method;
 public abstract class Controller {
 	
 	protected Model model;
-	protected Controller controllerAux;
 	protected LinkedArray views	= new LinkedArray();
 	protected LinkedArray data	= new LinkedArray();
 	public ComponentsManager components;
+	public Controller controllerAux;
 	
 	public Controller() {
 		setModel("");
@@ -135,6 +133,10 @@ public abstract class Controller {
 		this.data = data;
 	}
 	
+	public void mergeData(LinkedArray data) {
+		this.data.merge(data);
+	}
+	
 	public LinkedArray getData() {
 		return data;
 	}
@@ -204,11 +206,11 @@ public abstract class Controller {
 		}
 	}
 	
-	protected void setControllerAux(Controller aux) {
+	public void setControllerAux(Controller aux) {
 		controllerAux = aux;
 	}
 	
-	protected Controller getControllerAux() {
+	public Controller getControllerAux() {
 		return controllerAux;
 	}
 	

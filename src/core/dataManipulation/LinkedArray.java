@@ -120,4 +120,16 @@ public class LinkedArray {
 		values	= new ArrayList();
 	}
 	
+	public void dump() {
+		System.out.println("\nLinkedArray {");
+		
+		if (this.isEmpty())
+			System.out.println("\t[ EMPTY ]");
+		else
+			for (int i = 0; i < this.size(); i++)
+				System.out.println("\t'" + keys.get(i).getClass().getSimpleName() + "' --> '" + values.get(i).getClass().getSimpleName() + "'");
+		
+		System.out.println("}");
+	}
+	
 }

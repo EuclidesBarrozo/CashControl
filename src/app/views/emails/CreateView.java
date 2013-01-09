@@ -6,6 +6,7 @@
 package app.views.emails;
 
 import app.views.AppView;
+import javax.swing.JOptionPane;
 
 /**
  *

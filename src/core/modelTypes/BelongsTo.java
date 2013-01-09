@@ -6,7 +6,6 @@
 package core.modelTypes;
 
 import core.dataManipulation.LinkedArray;
-import core.mvc.Controller;
 
 /**
  *
@@ -24,16 +23,19 @@ public abstract class BelongsTo extends ModelType {
 	}
 	
 	@Override
-	public boolean saveComplements(Integer owner_id, LinkedArray owner_data) {
-		LinkedArray complement = owner_data.containsKey(models[0])?
-				(LinkedArray) owner_data.extract(models[0]) :
-				new LinkedArray();
+	public boolean saveComplements(Integer owner_id, LinkedArray complement) {
+		String complementName = modelName(table);
+		LinkedArray owner_data = controller.controllerAux.getData();
+		LinkedArray complements = ( ! owner_data.containsKey(complementName))?
+			new LinkedArray() :
+			(LinkedArray) owner_data.get(complementName);
 		
-		complement.put(data);
-		owner_data.add(models[0], complement);
-		sendData(owner_data);
+		complements.put(complement);
+		owner_data.add(complementName, complements);
 		
-		return owner_data.containsKey(models[0]);
+		controller.controllerAux.setData(owner_data);
+		
+		return controller.controllerAux.getData().containsKey(modelName(table));
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public abstract class BelongsTo extends ModelType {
 			LinkedArray complements = all(getForeignKey(models[i] + " = '" + owner_id + "'"));
 			
 			if (isValid(complements))
-				data.add(models[i], complements);
+				data.add(modelName(table), complements);
 		}
 		
 		return data;

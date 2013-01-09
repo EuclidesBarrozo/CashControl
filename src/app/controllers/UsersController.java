@@ -18,4 +18,16 @@ public class UsersController extends PeopleController {
 		return data;
 	}
 	
+	public void create() {
+		if (data.isEmpty()) {
+			display("create");
+		}
+		else {
+			System.out.println("Dados colhidos em UsersController");
+			if (data.containsKey("Emails")) {
+				data.dump();
+			}
+		}
+	}
+	
 }
