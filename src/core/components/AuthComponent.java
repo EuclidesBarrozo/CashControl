@@ -5,7 +5,6 @@
 
 package core.components;
 
-import core.components.Component;
 import core.dataManipulation.LinkedArray;
 import core.mvc.Model;
 import java.util.Enumeration;
@@ -18,6 +17,10 @@ import java.util.Properties;
  */
 public class AuthComponent extends Component {
 	
+	private String loginKeyWord = "login";
+	private String passwordKeyWord = "password";
+	private String securityString = "#$WH$&)@e73nc104nq0<Ae#%(#954!ax";
+	private boolean useSecurityString = true;
 	private static LinkedArray users = new LinkedArray();
 //	private LinkedArray blackList = new LinkedArray();
 	
@@ -26,8 +29,20 @@ public class AuthComponent extends Component {
 		setModel(model);
 	}
 	
+	public void setLoginKeyWord(String word) {
+		loginKeyWord = word;
+	}
+	
+	public void setPasswordKeyWord(String word) {
+		passwordKeyWord = word;
+	}
+	
+	public void useSecurityString(boolean choice) {
+		useSecurityString = choice;
+	}
+	
 	public Boolean isLogged(LinkedArray params) {
-		if ( ! params.isEmpty()) {
+		if ( ! (params.isEmpty() || params == null)) {
 			String login = (String) params.get("login");
 			Integer password = params.get("password").hashCode();
 
@@ -71,18 +86,20 @@ public class AuthComponent extends Component {
 		return (LinkedArray) users.get(userCode());
 	}
 	
-	public Integer userCode() {
-		int userCode  = 0;
+	public String userCode() {
+		String userCode = useSecurityString? securityString : "";
 		Properties p  = System.getProperties();
 		Enumeration e = p.propertyNames();
 		
+		
 		while (e.hasMoreElements()) {
-			String pName  = (String) e.nextElement();
+			String pName = (String) e.nextElement();
 			String pValue = (String) p.get(pName);
-			userCode += pValue.hashCode();
+			if ( ! (pName.contains("version") || pName.startsWith("file") || pName.startsWith("path")  || pName.startsWith("line")))
+				userCode += pValue;
 		}
 		
-		return userCode;
+		return ((Integer) userCode.hashCode()).toString();
 	}
 	
 //	public void deny(LinkedArray blackList) {

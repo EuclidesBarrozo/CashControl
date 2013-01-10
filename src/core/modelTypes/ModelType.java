@@ -28,7 +28,10 @@ public abstract class ModelType extends Model {
 		complements = checkoutForComplements(models);
 		
 		if (super.save(data))
-			return saveComplements(recoverPrimaryKey(data), complements);
+			if (isValid(complements))
+				return saveComplements(recoverPrimaryKey(data), complements);
+			else
+				return true;
 		
 		return false;
 	}
@@ -62,7 +65,7 @@ public abstract class ModelType extends Model {
 	@Override
 	public LinkedArray firstBy(String conditions) {
 		LinkedArray first = super.firstBy(conditions);
-		
+			
 		first.merge(getComplements((Integer) first.get(primaryKey)));
 		
 		return first;

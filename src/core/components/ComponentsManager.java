@@ -16,12 +16,7 @@ import java.lang.reflect.Method;
  */
 public class ComponentsManager {
 	
-	protected LinkedArray components;
-	
-
-	public ComponentsManager(LinkedArray components) {
-		this.components = components;
-	}
+	protected LinkedArray components = new LinkedArray();
 	
 	public void install(String componentsName, Component newComponent) {
 		if ( ! components.containsKey(componentsName))

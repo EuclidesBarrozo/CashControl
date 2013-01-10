@@ -15,14 +15,9 @@ public class EmailsController extends AppController {
 	public void create() {
 		if (data.isEmpty())
 			display("create");
-		else {
-			System.out.println("Enviando dados para saveComplements...");
-			if (model.saveComplements(null, data))
-				System.out.println("Dados salvos no controller auxiliar!");
-			else
-				System.out.println("Falha ao salvar os dados no controller auxiliar!");
-		}
-			
+		
+		else
+			model.saveComplements(null, data);
 	}
 	
 }

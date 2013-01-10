@@ -9,6 +9,7 @@ import core.components.ComponentsManager;
 import core.dataManipulation.LinkedArray;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
@@ -19,7 +20,7 @@ public abstract class Controller {
 	protected Model model;
 	protected LinkedArray views	= new LinkedArray();
 	protected LinkedArray data	= new LinkedArray();
-	public ComponentsManager components;
+	public ComponentsManager components = new ComponentsManager();
 	public Controller controllerAux;
 	
 	public Controller() {
@@ -168,7 +169,7 @@ public abstract class Controller {
 			System.out.println(exception.getMessage());
 		}
 	}
-		
+	
 	private View getView(String action) {
 		if (views.containsKey(action))
 			return (View) views.get(action);
@@ -214,4 +215,7 @@ public abstract class Controller {
 		return controllerAux;
 	}
 	
+	public Model getModel() {
+		return model;
+	}
 }

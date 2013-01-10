@@ -73,16 +73,11 @@ public class CreateView extends AppView {
 	}//GEN-LAST:event_newEmailButtonActionPerformed
 
 	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-		System.out.println("Processamento encerrado!");
-		data = controller.getData();
-		if (data.containsKey("Emails")) {
-			System.out.println("Dados chegaram ao fim do processamento! Exibindo dados...");
-			data.dump();
-			updateController();
-			dispose();
-		}
-		else
-			System.out.println("Os dados não chegaram ao fim do processamento!");
+		if (controller.getData().containsKey("Emails"))
+			data.add("Emails", controller.getData().get("Emails"));
+		
+		updateController();
+		dispose();	
 	}//GEN-LAST:event_okButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

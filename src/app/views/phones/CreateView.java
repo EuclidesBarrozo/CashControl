@@ -47,12 +47,6 @@ public class CreateView extends AppView {
             }
         });
 
-        phone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                phoneActionPerformed(evt);
-            }
-        });
-
         createLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         createLabel2.setText("Tel:");
 
@@ -96,10 +90,6 @@ public class CreateView extends AppView {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_phoneActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
            dispose();

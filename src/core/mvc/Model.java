@@ -28,8 +28,8 @@ public abstract class Model {
 	protected String foreignKey;
 	protected String[] models;
 	protected LinkedArray data = new LinkedArray();
-	protected Model	 model;
-	public ComponentsManager components;
+	protected Model	model;
+	public ComponentsManager components = new ComponentsManager();
 	
 	public boolean save(LinkedArray data) {
 		if (data.containsKey(primaryKey))

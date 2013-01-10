@@ -25,8 +25,9 @@ public class LinkedArray {
 	}
 	
 	public void merge(LinkedArray linkedArray) {
-		for (int i = 0; i < linkedArray.size(); i++)
-			this.add(linkedArray.getKeyByIndex(i), linkedArray.getValueByIndex(i));
+		if ( ! (linkedArray == null || linkedArray.isEmpty()))
+			for (int i = 0; i < linkedArray.size(); i++)
+				this.add(linkedArray.getKeyByIndex(i), linkedArray.getValueByIndex(i));
 	}
 	
 	public void add(Object key, Object value) {
@@ -65,15 +66,17 @@ public class LinkedArray {
 	}
 	
 	public void removeByKey(Object key) {
-		removeByIndex(keys.indexOf(key));
+		if (this.containsKey(key))
+			removeByIndex(keys.indexOf(key));
 	}
 	
 	public void removeByValue(Object value) {
-		removeByIndex(values.indexOf(value));
+		if (this.containsValue(value))
+			removeByIndex(values.indexOf(value));
 	}
 	
 	public Object get(Object key) {
-		return getValueByKey(key);
+		return this.containsKey(key)? getValueByKey(key) : null;
 	}
 		
 	public Object getKeyByIndex(int index) {
@@ -101,10 +104,13 @@ public class LinkedArray {
 	}
 	
 	public Object extract(Object key) {
-		Object section = this.get(key);
-		this.remove(key);
-		
-		return section;
+		if (this.containsKey(key)) {
+			Object section = this.get(key);
+			this.remove(key);
+
+			return section;
+		}
+		return null;
 	}
 	
 	public boolean containsKey(Object key) {
@@ -124,10 +130,10 @@ public class LinkedArray {
 		System.out.println("\nLinkedArray {");
 		
 		if (this.isEmpty())
-			System.out.println("\t[ EMPTY ]");
+			System.out.println("  [ EMPTY ]");
 		else
 			for (int i = 0; i < this.size(); i++)
-				System.out.println("\t'" + keys.get(i).getClass().getSimpleName() + "' --> '" + values.get(i).getClass().getSimpleName() + "'");
+				System.out.println("  '" + keys.get(i).getClass().getSimpleName() + "' --> '" + values.get(i).getClass().getSimpleName() + "'");
 		
 		System.out.println("}");
 	}
