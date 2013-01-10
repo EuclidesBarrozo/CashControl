@@ -11,18 +11,7 @@ import core.dataManipulation.LinkedArray;
  * @author Eduardo Jr
  */
 public class PhonesController extends AppController{
-<<<<<<< HEAD
-   /*public void create(){
-        if ( ! data.isEmpty()) {
-           System.out.println("Dados recebidos!");		
-           System.out.println((String) data.get("phone"));
-        }
-        else{
-	   display("create");
-        }
-     *
-     * @return
-     */
+	
     public LinkedArray create() {
         if ( ! data.isEmpty()) {
             System.out.println("Dados recebidos!");		
@@ -31,30 +20,29 @@ public class PhonesController extends AppController{
 		if (data.isEmpty()){
 			display("create");
         }
-=======
+		return null;
+	}
    
     public LinkedArray createPhone() {
-            if ( ! data.isEmpty()) {
-                System.out.println("Dados recebidos!");		
-                System.out.println((String) data.get("phone"));
-            }
-            else{
-		display("createPhone");
-            }
+        if ( ! data.isEmpty()) {
+            System.out.println("Dados recebidos!");		
+            System.out.println((String) data.get("phone"));
+        }
+        else{
+			display("createPhone");
+        }
 		
 		return data.isEmpty()? null : data;
     }
     
     public LinkedArray createCell() {
-            if ( ! data.isEmpty()) {
-                System.out.println("Dados recebidos!");		
-                System.out.println((String) data.get("cell"));
-            }
-            else{
-		display("createCell");
-            }
->>>>>>> 7b7fae9781cba33a6d30e067138e05ff71a4a9c9
-		
+        if ( ! data.isEmpty()) {
+            System.out.println("Dados recebidos!");		
+            System.out.println((String) data.get("cell"));
+        }
+		else {
+			display("createCell");
+		}		
 		return data.isEmpty()? null : data;
     }
     
