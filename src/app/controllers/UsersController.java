@@ -5,8 +5,6 @@
 
 package app.controllers;
 
-import core.dataManipulation.LinkedArray;
-
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
@@ -14,20 +12,6 @@ import core.dataManipulation.LinkedArray;
  */
 public class UsersController extends PeopleController {
 
-	public LinkedArray getData() {
-		return data;
-	}
 	
-	public void create() {
-		if (data.isEmpty()) {
-			display("create");
-		}
-		else {
-			System.out.println("Dados colhidos em UsersController");
-			if (data.containsKey("Emails")) {
-				data.dump();
-			}
-		}
-	}
 	
 }

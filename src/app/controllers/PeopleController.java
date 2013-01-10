@@ -12,7 +12,17 @@ package app.controllers;
  */
 public abstract class PeopleController extends AppController {
 
-	public void create() {}
+	public void create() {
+		if (data.isEmpty())
+			display("create");
+		
+		else
+			if (model.save(data))
+				System.out.println("Dados salvos com sucesso!");
+			else
+				System.out.println("Falha ao salvar os dados!");
+	}
+	
 	public void read(Integer id) {}
 	public void update(Integer id) {}
 	public void delete(Integer id) {}

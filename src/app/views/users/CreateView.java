@@ -5,7 +5,6 @@
 
 package app.views.users;
 
-import app.controllers.EmailsController;
 import app.views.AppView;
 
 /**
@@ -24,6 +23,7 @@ public class CreateView extends AppView {
     private void initComponents() {
 
         newEmailButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -34,21 +34,35 @@ public class CreateView extends AppView {
             }
         });
 
+        okButton.setText("OK");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(newEmailButton)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(newEmailButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(169, 169, 169)
+                        .addComponent(okButton)))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(newEmailButton)
-                .addContainerGap(263, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
+                .addComponent(okButton)
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -56,10 +70,24 @@ public class CreateView extends AppView {
 
 	private void newEmailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newEmailButtonActionPerformed
 		controller.callAction("newEmail");
-		dispose();
 	}//GEN-LAST:event_newEmailButtonActionPerformed
+
+	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+		System.out.println("Processamento encerrado!");
+		data = controller.getData();
+		if (data.containsKey("Emails")) {
+			System.out.println("Dados chegaram ao fim do processamento! Exibindo dados...");
+			data.dump();
+			updateController();
+			dispose();
+		}
+		else
+			System.out.println("Os dados não chegaram ao fim do processamento!");
+	}//GEN-LAST:event_okButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton newEmailButton;
+    private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 
 }
