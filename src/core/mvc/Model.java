@@ -240,7 +240,7 @@ public abstract class Model {
 		
 		for (int i = 0; i < models.length; i++)
 			if (data.containsKey(models[i]))
-				complements.add(models[i], (LinkedArray) data.extract(models));
+				complements.add(models[i], (LinkedArray) data.extract(models[i]));
 		
 		return complements.isEmpty()? null : complements;
 	}

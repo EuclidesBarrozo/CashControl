@@ -21,9 +21,13 @@ public class AppController extends Controller {
 	 * Podemos usar este outro método para executar alguma coisa sem ter que
 	 * passar pela autenticação.
 	 * 
+	 * Para isso, basta mudar a chamada na Classe CashControl
+	 * trocar: new AppController().main(null);
+	 * por:	   new AppController().main();
+	 * 
 	 */
 	public void main() {
-		
+		new UsersController().create();
 	}
 	
 	public void main(Object params) {

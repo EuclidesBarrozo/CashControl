@@ -38,7 +38,6 @@ public class People extends HasMany {
 				resetTable();
 				return false;
 			}
-			
 		}
 		return false;
 	}
