@@ -24,7 +24,7 @@ public abstract class HasMany extends ModelType {
 				
 				useModel(models[i]);
 				for (int j = 0; j < complement.size(); j++) {
-					LinkedArray part = (LinkedArray) complement.get(i);
+					LinkedArray part = (LinkedArray) complement.get(j);
 					
 					if ( ! part.containsKey(foreignKey))
 						part.add(foreignKey, owner_id);

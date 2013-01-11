@@ -25,7 +25,7 @@ public abstract class ModelType extends Model {
 		LinkedArray complements;
 		
 		data = params;
-		complements = checkoutForComplements(models);
+		complements = checkoutForComplements();
 		
 		if (super.save(data))
 			if (isValid(complements))

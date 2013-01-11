@@ -159,7 +159,7 @@ public abstract class Model {
 	}
 	
 	protected boolean isValid(LinkedArray param) {
-		return ! (param == null && param.isEmpty());
+		return ! (param == null || param.isEmpty());
 	}
 	
 	public String getPrimaryKey() {
@@ -180,14 +180,9 @@ public abstract class Model {
 			String conditions = "";
 
 			for (int i = 0; i < params.size(); i++) {
-				if (i + 1 < params.size()) {
-					conditions += (String) params.getKeyByIndex(i);
-					conditions += " = '" + (String) params.getValueByIndex(i) + "', ";
-				}
-				else {
-					conditions += (String) params.getKeyByIndex(i);
-					conditions += " = '" + (String) params.getValueByIndex(i) + "'";
-				}
+				conditions += params.getKeyByIndex(i).toString();
+				conditions += " = \"" + params.getValueByIndex(i).toString() + "\"";
+				conditions += i < params.size() - 1? " and " : " ";
 			}
 			
 			id = (Integer) firstBy(conditions).get(primaryKey);
@@ -235,7 +230,7 @@ public abstract class Model {
 		}
 	}
 	
-	protected LinkedArray checkoutForComplements(String[] models) {
+	protected LinkedArray checkoutForComplements() {
 		LinkedArray complements = new LinkedArray();
 		
 		for (int i = 0; i < models.length; i++)

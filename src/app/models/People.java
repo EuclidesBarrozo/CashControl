@@ -22,32 +22,45 @@ public class People extends HasMany {
 		components.install("DateTime", new DateTimeComponent());
 	}
 	
+	public void setTimeInData() {
+		String time = (String) components.use("DateTime", "rightNow");
+
+		if (!data.containsKey(primaryKey))
+			data.add("created", time);
+		
+		data.add("modified", time);
+	}
+	
 	@Override
 	public boolean save(LinkedArray params) {
 		if (isValid(params)) {
-			String now = (String) components.use("DateTime", "rightNow");
-			
-			if ( ! params.containsKey(primaryKey))
-				params.add("created", now);
-			
-			params.add("modified", now);
-		}
-		
-		if (super.save(params)) {
-			LinkedArray info = new LinkedArray();
-			
-			info.add("peopleType", getTable());
-			info.add(foreignKey, recoverPrimaryKey(data));
-			
-			setTable("people");
-			
-			if (super.save(info)) {
+			data = params;
+			LinkedArray complements = checkoutForComplements();
+			setTimeInData();
+				
+			boolean sucess = super.save(data);
+			Integer id = recoverPrimaryKey(data);
+				
+			if ( ! data.containsKey(primaryKey)) {
+				LinkedArray info = new LinkedArray();
+				info.add("peopleType", getTable());
+				info.add(foreignKey, id);
+				
+				setTable("people");
+				
+				sucess = sucess && super.save(info);
+				
+				id = recoverPrimaryKey(info);
 				resetTable();
-				return true;
 			}
-			resetTable();
+			else {
+				setTable("people");
+				id = (Integer) firstBy(foreignKey + " = '" + id + "'").get(foreignKey);
+				resetTable();
+			}
+			
+			return sucess && saveComplements(id, complements);
 		}
 		return false;
 	}
-	
 }
