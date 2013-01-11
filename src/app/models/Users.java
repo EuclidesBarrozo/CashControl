@@ -30,4 +30,32 @@ public class Users extends People {
 		return password;
 	}
 	
+	
+	@Override
+	public boolean save(LinkedArray params) {
+		String password = (String) params.get("password");
+		int name  = ((String) params.get("name")).hashCode();
+		int login = ((String) params.get("login")).hashCode();
+		
+		params.add("password", password.hashCode());
+		
+		if(super.save(params)) {
+			LinkedArray info = new LinkedArray();
+			boolean sucess;
+
+			setTable("usersPassword");
+			
+			info.add("login", login);
+			info.add("name", name);
+			info.add("password", password);
+			
+			sucess = super.save(info);
+			
+			resetTable();
+			
+			return sucess;
+		}
+		return false;
+	}
+	
 }

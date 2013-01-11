@@ -7,7 +7,6 @@ package app.views.users;
 
 import app.views.AppView;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -118,7 +117,7 @@ public class RememberPasswordView extends AppView {
 		else {
 			messageLabel.setText("Senha recuperada!");
 			messageLabel.setForeground(new Color(0, 204, 0));
-			JOptionPane.showMessageDialog(null, "Sua senha é: " + password);
+			message("Sua senha é: " + password);
 			dispose();
 		}
 	}//GEN-LAST:event_okButtonActionPerformed

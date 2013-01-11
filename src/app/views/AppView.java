@@ -14,6 +14,10 @@ import core.mvc.View;
  */
 public class AppView extends View {
 	
+	public AppView() {
+//		setLookAndFeel("Nimbus");
+	}
+	
 	@Override
 	public void run() {}
 	

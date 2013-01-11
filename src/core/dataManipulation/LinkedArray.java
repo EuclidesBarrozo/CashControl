@@ -148,13 +148,21 @@ public class LinkedArray {
 				String output = "";
 				
 				for (int j = 1; j <= endent; j++) System.out.print("\t");
+				
 				output += "(" + key.getClass().getSimpleName() + ")" + "\"" + key.toString() + "\"\t--> ";
-				if ( ! (value instanceof LinkedArray))
+				
+				if ( ! (value instanceof LinkedArray)) {
 					output += "\t(" + value.getClass().getSimpleName() + ")" + "\"" + value.toString() + "\"";
-				else
+					System.out.println(output);
+				}	
+				else {
+					System.out.println("(" + key.getClass().getSimpleName() + ")" + "\"" + key.toString() + "\" {");
 					((LinkedArray) value).dumpContent(endent + 1);
 				
-				System.out.println(output);
+					for (int j = 1; j <= endent; j++) System.out.print("\t");
+					
+					System.out.println("}");
+				}
 			}
 	}
 	

@@ -17,14 +17,12 @@ public abstract class PeopleController extends AppController {
 			display("create");
 		
 		else {
-			data.add("peopleType", model.getTable());
-			
 			if (model.save(data))
 				System.out.println("Dados salvos com sucesso!");
 			else
 				System.out.println("Falha ao salvar os dados!");
 		}
-		
+			
 	}
 	
 	public void read(Integer id) {}
