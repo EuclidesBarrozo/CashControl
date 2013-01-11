@@ -43,18 +43,17 @@ public class AuthComponent extends Component {
 	
 	public Boolean isLogged(LinkedArray params) {
 		if ( ! (params.isEmpty() || params == null)) {
-			String login = (String) params.get("login");
-			Integer password = params.get("password").hashCode();
+			String login = (String) params.get(loginKeyWord);
+			Integer password = params.get(passwordKeyWord).hashCode();
 
 			for (Integer i = 0; i < users.size(); i++) {
 				LinkedArray tmp = (LinkedArray) users.getValueByIndex(i);
 
-				boolean flag1 = tmp.get("login").equals(login);
-				boolean flag2 = password == tmp.get("password").hashCode();
+				boolean flag1 = tmp.get(loginKeyWord).equals(login);
+				boolean flag2 = password.toString().equals(tmp.get(passwordKeyWord));
 
-				if (flag1 && flag2) {
+				if (flag1 && flag2)
 					return Boolean.TRUE;
-				}
 			}
 		}
 		
@@ -65,8 +64,8 @@ public class AuthComponent extends Component {
 		if ( ! isLogged(params)) {
 			String condition1, condition2;
 			
-			condition1 = "login = \"" + params.get("login") + "\"";
-			condition2 = "password = \"" + params.get("password").hashCode() + "\"";
+			condition1 = loginKeyWord + " = \"" + params.get(loginKeyWord) + "\"";
+			condition2 = passwordKeyWord + " = \"" + params.get(passwordKeyWord).hashCode() + "\"";
 			
 			LinkedArray user = model.firstBy(condition1 + " and " + condition2);
 			

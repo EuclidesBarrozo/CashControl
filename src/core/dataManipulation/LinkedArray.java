@@ -132,10 +132,30 @@ public class LinkedArray {
 		if (this.isEmpty())
 			System.out.println("  [ EMPTY ]");
 		else
-			for (int i = 0; i < this.size(); i++)
-				System.out.println("  '" + keys.get(i).getClass().getSimpleName() + "' --> '" + values.get(i).getClass().getSimpleName() + "'");
+			dumpContent(1);
+				
 		
-		System.out.println("}");
+		System.out.println("}\n");
+	}
+	
+	private void dumpContent(int endent) {
+		if (this.isEmpty())
+			System.out.println("  [ EMPTY ]");
+		else
+			for (int i = 0; i < this.size(); i++) {
+				Object key = keys.get(i);
+				Object value = values.get(i);
+				String output = "";
+				
+				for (int j = 1; j <= endent; j++) System.out.print("\t");
+				output += "(" + key.getClass().getSimpleName() + ")" + "\"" + key.toString() + "\"\t--> ";
+				if ( ! (value instanceof LinkedArray))
+					output += "\t(" + value.getClass().getSimpleName() + ")" + "\"" + value.toString() + "\"";
+				else
+					((LinkedArray) value).dumpContent(endent + 1);
+				
+				System.out.println(output);
+			}
 	}
 	
 }

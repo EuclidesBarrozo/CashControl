@@ -47,7 +47,7 @@ public abstract class Model {
 	public LinkedArray all(String options) {
 		ArrayList<String> params = new ArrayList<String>();
 		params.add("*");
-		return (LinkedArray) db.select(table, params, options);
+		return (LinkedArray) db.select(table, params, "WHERE " + options);
 	}
 	
 	public LinkedArray firstBy(String condition) {

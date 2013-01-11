@@ -5,6 +5,7 @@
 
 package app.views.users;
 
+import app.controllers.AppController;
 import app.views.AppView;
 import core.dataManipulation.LinkedArray;
 import java.awt.Color;
@@ -126,9 +127,8 @@ public class LoginView extends AppView {
 		
 		if (controller.components.use("Auth", "login", params) == Boolean.TRUE) {
 			dispose();
-			controller.callAction("main", params);
+			new AppController().callAction("main", params);
 		}
-		
 		else {
 			message.setText("Login falhou! Tente novamente.");
 			message.setForeground(Color.red);

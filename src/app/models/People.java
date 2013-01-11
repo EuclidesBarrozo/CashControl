@@ -17,7 +17,7 @@ public class People extends HasMany {
 
 	public People() {
 		models = new String[] {"Emails"};
-		setPrefix("people_");
+		setPrefix("people");
 	}
 	
 	@Override
