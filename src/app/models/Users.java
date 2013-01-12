@@ -40,8 +40,6 @@ public class Users extends People {
 		
 		data.add("password", password.hashCode());
 		
-		data.dump();
-		
 		if (super.save(data)) {
 			LinkedArray info = new LinkedArray();
 			boolean sucess;
@@ -52,7 +50,7 @@ public class Users extends People {
 			info.add("name", name);
 			info.add("password", password);
 			
-			sucess = super.save(info);
+			sucess = super.save(info, false);
 			
 			resetTable();
 			

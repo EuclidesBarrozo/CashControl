@@ -28,6 +28,7 @@ public class Database {
 	private String database;
 	private String driver;
 	private String url;	
+	private String primaryKey = "id";
 	
 	private Database() {
 		if ( ! dbConfigured)
@@ -39,13 +40,13 @@ public class Database {
 		}
 	
 		catch (ClassNotFoundException exception) {
-			System.out.println("Class not found exception!");
+			System.out.println("Exception! Class \"" + driver + "\" not found!");
 			System.out.println(exception.getMessage());
 			connection = null;
 		}
 	
 		catch (SQLException exception) {
-			System.out.println("SQL Exception. Failed to execute SQL query!");
+			System.out.println("SQL Exception. Failed to execute SQL query! Connection fail!");
 			System.out.println(exception.getMessage());
 			connection = null;
 		}
@@ -64,13 +65,13 @@ public class Database {
 		}
 	
 		catch (ClassNotFoundException exception) {
-			System.out.println("Class not found exception!");
+			System.out.println("Exception! Class \"" + driver + "\" not found!");
 			System.out.println(exception.getMessage());
 			connection = null;
 		}
 	
 		catch (SQLException exception) {
-			System.out.println("SQL Exception. Failed to execute SQL query!");
+			System.out.println("SQL Exception. Failed to execute SQL query! Connection fail!");
 			System.out.println(exception.getMessage());
 			connection = null;
 		}
@@ -126,6 +127,10 @@ public class Database {
 		this.url = url;
 	}
 	
+	public void setPrimaryKey(String primaryKey) {
+		this.primaryKey = primaryKey;
+	}
+	
 	public LinkedArray select(String table, ArrayList<String> fields, String complement) {
 		String sql;
 		String fieldsList = "";
@@ -155,7 +160,7 @@ public class Database {
 					
 				}
 				catch (SQLException exception) {
-					System.out.println("SQL Exception. Failed to execute SQL query!");
+					System.out.println("SQL Exception. Failed to execute SQL query! When using " + table + " table.");
 					System.out.println(exception.getMessage());
 				}
 				
@@ -166,7 +171,7 @@ public class Database {
 				LinkedArray tmp = new LinkedArray();
 				for (j = 0; j < fields.size(); j++) {
 					String key = fields.get(j);
-					if (key.equals("id"))
+					if (key.equals(primaryKey))
 						tmp.add(key, Integer.parseInt(results.getString(key)));
 					else
 						tmp.add(key, results.getString(key));
@@ -180,7 +185,7 @@ public class Database {
 		}
 		
 		catch (SQLException exception) {
-			System.out.println("SQL Exception. Failed to execute SQL query!");
+			System.out.println("SQL Exception. Failed to execute SQL query! When using " + table + " table.");
 			System.out.println("SQL: " + sql);
 			System.out.println(exception.getMessage());
 		}
@@ -205,7 +210,7 @@ public class Database {
 		}
 		
 		catch (SQLException exception) {
-			System.out.println("SQL Exception. Failed to execute SQL query!");
+			System.out.println("SQL Exception. Failed to execute SQL query! When using " + table + " table.");
 			System.out.println(exception.getMessage());
 		}
 				
@@ -228,7 +233,7 @@ public class Database {
 		}
 		
 		catch (SQLException exception) {
-			System.out.println("SQL Exception. Failed to execute SQL query!");
+			System.out.println("SQL Exception. Failed to execute SQL query! When using " + table + " table.");
 			System.out.println(exception.getMessage());
 		}
 				
@@ -245,7 +250,7 @@ public class Database {
 			return true;
 		}
 		catch (SQLException exception) {
-			System.out.println("SQL Exception. Failed to execute SQL query!");
+			System.out.println("SQL Exception. Failed to execute SQL query! When using " + table + " table.");
 			System.out.println(exception.getMessage());
 		}
 		
