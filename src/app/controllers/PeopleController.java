@@ -16,7 +16,7 @@ public abstract class PeopleController extends AppController {
 		if (data.isEmpty())
 			display("create");
 		else
-			System.out.println(model.save(data)? "Dados salvos com sucesso!" : "Falha ao salvar os dados!");
+			message(model.save(data)? "Salvo!" : "Falha ao salvar!");
 	}
 	
 	public void read(Integer id) {}

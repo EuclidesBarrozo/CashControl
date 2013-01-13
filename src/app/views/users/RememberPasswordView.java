@@ -119,6 +119,8 @@ public class RememberPasswordView extends AppView {
 			messageLabel.setForeground(new Color(0, 204, 0));
 			message("Sua senha é: " + password);
 			dispose();
+			login.setText("");
+			name.setText("");
 		}
 	}//GEN-LAST:event_okButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

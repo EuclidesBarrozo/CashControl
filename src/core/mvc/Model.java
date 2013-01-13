@@ -28,7 +28,7 @@ public abstract class Model {
 	protected String foreignKey;
 	protected String[] models;
 	protected LinkedArray data = new LinkedArray();
-	protected Model	model;
+	protected Model	modelAux;
 	public ComponentsManager components = new ComponentsManager();
 	
 	public boolean save(LinkedArray data) {
@@ -210,11 +210,11 @@ public abstract class Model {
 			foreignKey = primaryKey + "_" + sufix;
 	}
 	
-	protected void useModel(String modelName) {
+	protected void useModelAux(String modelName) {
 		modelName += modelName.equals("App")? "Model" : "";
 		
 		try {
-			model = (Model) Class.forName("app.models." + modelName).newInstance();
+			modelAux = (Model) Class.forName("app.models." + modelName).newInstance();
 		}
 		catch (ClassNotFoundException exception) {
 			System.out.println("Model '"+ modelName +"' not found!");

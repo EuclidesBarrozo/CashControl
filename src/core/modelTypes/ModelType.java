@@ -51,22 +51,16 @@ public abstract class ModelType extends Model {
 	
 	@Override
 	public LinkedArray all(String options) {
-		LinkedArray members = super.all(options);
-		
-		for (int i = 0; i < members.size(); i++) {
-			LinkedArray member = (LinkedArray) members.get(i);
-			member.merge(getComplements((Integer) member.get(primaryKey)));
-			members.add(i, member);
-		}
-		
-		return members;
+		return super.all(options);
 	}
 	
 	@Override
 	public LinkedArray firstBy(String conditions) {
 		LinkedArray first = super.firstBy(conditions);
-			
-		first.merge(getComplements((Integer) first.get(primaryKey)));
+		LinkedArray complements = getComplements((Integer) first.get(primaryKey));	
+		
+		if (isValid(complements))
+			first.merge(complements);
 		
 		return first;
 	}

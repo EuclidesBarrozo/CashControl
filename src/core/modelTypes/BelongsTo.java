@@ -65,12 +65,12 @@ public abstract class BelongsTo extends ModelType {
 	}
 	
 	public String getForeignKey(String modelName) {
-		useModel(modelName);
+		useModelAux(modelName);
 		
 		if (foreignKeyPrefixed)
-			return getTable(modelName) + "_" + model.getPrimaryKey();
+			return getTable(modelName) + "_" + modelAux.getPrimaryKey();
 		else
-			return model.getPrimaryKey() + "_" + getTable(modelName);
+			return modelAux.getPrimaryKey() + "_" + getTable(modelName);
 	}
 
 }

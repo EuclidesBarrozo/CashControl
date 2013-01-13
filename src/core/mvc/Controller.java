@@ -9,6 +9,7 @@ import core.components.ComponentsManager;
 import core.dataManipulation.LinkedArray;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -217,5 +218,13 @@ public abstract class Controller {
 	
 	public Model getModel() {
 		return model;
+	}
+	
+	public void message(String text) {
+		JOptionPane.showMessageDialog(null, text);
+	}
+	
+	public String input(String message) {
+		return JOptionPane.showInputDialog(message);
 	}
 }
