@@ -18,6 +18,59 @@ public class CreateView extends AppView {
     public CreateView() {
         initComponents();
     }
+	
+	private String upperInitials(String str) {
+		String[]tmp;
+		
+		while (str.contains("  "))
+			str = str.replace("  ", " ");
+		
+		tmp = str.split(" ");
+		str = "";
+		
+		for (int i = 0; i < tmp.length; i++)
+			str += tmp[i].substring(0, 1).toUpperCase() + tmp[i].substring(1) + " ";
+		
+		return str;
+	}
+	
+	private String normalize(String str) {
+		str = str.replace("á", "a");	str = str.replace("Á", "A");
+		str = str.replace("â", "a");	str = str.replace("Â", "A");
+		str = str.replace("ã", "a");	str = str.replace("Ã", "A");
+		str = str.replace("à", "a");	str = str.replace("À", "A");
+		str = str.replace("ä", "a");	str = str.replace("Ä", "A");
+		
+		str = str.replace("é", "e");	str = str.replace("É", "E");
+		str = str.replace("ê", "e");	str = str.replace("Ê", "E");
+		str = str.replace("ẽ", "e");	str = str.replace("Ẽ", "E");
+		str = str.replace("è", "e");	str = str.replace("È", "E");
+		str = str.replace("ë", "e");	str = str.replace("Ë", "E");
+
+		str = str.replace("í", "i");	str = str.replace("Í", "I");
+		str = str.replace("î", "i");	str = str.replace("Î", "I");
+		str = str.replace("ĩ", "i");	str = str.replace("Ĩ", "I");
+		str = str.replace("ì", "i");	str = str.replace("Ì", "I");
+		str = str.replace("ï", "i");	str = str.replace("Ï", "I");
+
+		str = str.replace("ó", "o");	str = str.replace("Ó", "O");
+		str = str.replace("ô", "o");	str = str.replace("Ô", "O");
+		str = str.replace("õ", "o");	str = str.replace("Õ", "O");
+		str = str.replace("ò", "o");	str = str.replace("Ò", "O");
+		str = str.replace("ö", "o");	str = str.replace("Ö", "O");
+		
+		str = str.replace("ú", "u");	str = str.replace("Ú", "U");
+		str = str.replace("û", "u");	str = str.replace("Û", "U");
+		str = str.replace("ũ", "u");	str = str.replace("Ũ", "U");
+		str = str.replace("ù", "u");	str = str.replace("Ù", "U");
+		str = str.replace("ü", "u");	str = str.replace("Ü", "U");
+
+		return str;
+	}
+	
+	private boolean nameIsValid(String name) {
+		return normalize(name).matches("[a-zA-Z][a-zA-Z ]*");
+	}
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -37,6 +90,7 @@ public class CreateView extends AppView {
         passwordConfirmation = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastro de Usuários");
         setResizable(false);
 
         title.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -180,7 +234,7 @@ public class CreateView extends AppView {
 	}//GEN-LAST:event_addPhoneButtonActionPerformed
 
 	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-		boolean condition1 = ! name.getText().equals("");
+		boolean condition1 = ! name.getText().equals("") && nameIsValid(name.getText());
 		boolean condition2 = ! login.getText().equals("");
 		boolean condition3 = ( ! password.getText().equals("")) && password.getText().equals(passwordConfirmation.getText());
 		
@@ -200,7 +254,7 @@ public class CreateView extends AppView {
 			login.setText("");
 			password.setText("");
 			passwordConfirmation.setText("");
-			message("Preencha todos os campos e certifique-se que a senha e a confirmação são idênticas!");
+			message("Preencha todos os campos corretamente e certifique-se que a senha e a confirmação são idênticas!");
 		}
 	}//GEN-LAST:event_okButtonActionPerformed
 

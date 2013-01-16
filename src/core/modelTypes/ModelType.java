@@ -16,6 +16,8 @@ import core.mvc.Model;
 public abstract class ModelType extends Model {
 
 	public ModelType() {
+		setModels();
+		
 		if (prefix == null && sufix == null)
 			setPrefix(getTable() + "_");
 	}
@@ -95,5 +97,7 @@ public abstract class ModelType extends Model {
 		
 		return sucess == data.size();
 	}
+	
+	protected abstract void setModels();
 	
 }

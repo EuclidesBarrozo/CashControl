@@ -6,6 +6,7 @@
 package core.mvc;
 
 import core.components.ComponentsManager;
+import core.components.ValidationComponent;
 import core.dataManipulation.Database;
 import core.dataManipulation.LinkedArray;
 import java.lang.reflect.InvocationTargetException;
@@ -28,8 +29,15 @@ public abstract class Model {
 	protected String foreignKey;
 	protected String[] models;
 	protected LinkedArray data = new LinkedArray();
+	protected LinkedArray validations = new LinkedArray();
 	protected Model	modelAux;
 	public ComponentsManager components = new ComponentsManager();
+	
+	public Model() {
+		components.install("Validation", new ValidationComponent());
+		setComponents();
+		setValidations();
+	}
 	
 	public boolean save(LinkedArray data) {
 		if (data.containsKey(primaryKey))
@@ -238,6 +246,47 @@ public abstract class Model {
 				complements.add(models[i], (LinkedArray) data.extract(models[i]));
 		
 		return complements.isEmpty()? null : complements;
+	}
+	
+	protected void setComponents() {
+		// If the model needs to install any component, this will be implemented by you.
+	}
+	
+	protected void setValidations() {
+		// If the model really needs to validate anything, this will be implemented by you.
+	}
+	
+	protected void addValidation(String value, String rule, String message) {
+		LinkedArray conf = new LinkedArray();
+		
+		conf.add("rule", rule);
+		conf.add("message", message);
+		
+		validations.add(value, conf);
+	}
+	
+	public boolean validate(LinkedArray param) {
+		LinkedArray tmp = new LinkedArray();
+		
+		for (int i = 0; i < validations.size(); i++) {
+			
+			String key = (String) validations.getKeyByIndex(i);
+			
+			if (param.containsKey(key))
+				tmp.add(param.get(key), validations.get(key));
+		}
+		
+		return (Boolean) components.use("Validation", "validate", tmp);
+	}
+	
+	protected void displayErrors(String headerMessage) {
+		LinkedArray errors = (LinkedArray) components.use("Validation", "getErrors");
+		String output = headerMessage;
+		
+		for (int i = 0; i < errors.size(); i++)
+			output += "\n- " + errors.get(i);
+		
+		controller.message(output);
 	}
 	
 	public abstract boolean saveComplements(Integer owner_id, LinkedArray complements);

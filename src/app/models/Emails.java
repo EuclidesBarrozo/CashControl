@@ -14,7 +14,8 @@ import core.modelTypes.BelongsTo;
  */
 public class Emails extends BelongsTo {
 
-	public Emails() {
+	@Override
+	protected void setModels() {
 		models = new String[] {"People"};
 	}
 	

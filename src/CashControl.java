@@ -12,7 +12,7 @@ import app.controllers.AppController;
 public class CashControl extends AppController {
 
 	public static void main(String args[]) {
-		new AppController().main(null);
+		new AppController().main();
 	}
 	
 }

@@ -17,22 +17,35 @@ import core.modelTypes.HasMany;
 public class People extends HasMany {
 
 	public People() {
-		models = new String[] {"Emails"};
 		setPrefix("people");
+	}
+	
+	@Override
+	protected void setModels() {
+		models = new String[] {"Emails"};
+	}
+	
+	@Override
+	protected void setComponents() {
 		components.install("DateTime", new DateTimeComponent());
+	}
+	
+	@Override
+	protected void setValidations() {
+		addValidation("name", "word", "Nomes não devem conter números ou caracteres especiais.");
 	}
 	
 	public void setTimeInData() {
 		String time = (String) components.use("DateTime", "rightNow");
 
-		if (!data.containsKey(primaryKey))
+		if ( ! data.containsKey(primaryKey))
 			data.add("created", time);
 		
 		data.add("modified", time);
 	}
 	
 	public boolean save(LinkedArray params, boolean setTime) {
-		if (isValid(params)) {
+		if (isValid(params) && validate(params)) {
 			data = params;
 			LinkedArray complements = checkoutForComplements();
 			

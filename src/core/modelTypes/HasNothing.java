@@ -12,8 +12,8 @@ import core.dataManipulation.LinkedArray;
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class HasNothing extends ModelType {
-
+public abstract class HasNothing extends ModelType {
+	
 	@Override
 	public boolean saveComplements(Integer owner_id, LinkedArray complements) { return true; }
 
@@ -22,5 +22,8 @@ public class HasNothing extends ModelType {
 
 	@Override
 	public boolean deleteComplements(Integer owner_id) { return true; }
+	
+	@Override
+	protected void setModels() {}
 
 }
