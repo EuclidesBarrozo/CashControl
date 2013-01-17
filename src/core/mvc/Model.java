@@ -30,6 +30,7 @@ public abstract class Model {
 	protected String[] models;
 	protected LinkedArray data = new LinkedArray();
 	protected LinkedArray validations = new LinkedArray();
+	protected LinkedArray errors = new LinkedArray();
 	protected Model	modelAux;
 	public ComponentsManager components = new ComponentsManager();
 	
@@ -266,6 +267,7 @@ public abstract class Model {
 	}
 	
 	public boolean validate(LinkedArray param) {
+		boolean valid;
 		LinkedArray tmp = new LinkedArray();
 		
 		for (int i = 0; i < validations.size(); i++) {
@@ -276,16 +278,24 @@ public abstract class Model {
 				tmp.add(param.get(key), validations.get(key));
 		}
 		
-		return (Boolean) components.use("Validation", "validate", tmp);
+		valid = (Boolean) components.use("Validation", "validate", tmp);
+		errors.reset();
+		errors = (LinkedArray) components.use("Validation", "getErrors");
+		
+		return valid;
 	}
 	
-	protected void displayErrors(String headerMessage) {
-		LinkedArray errors = (LinkedArray) components.use("Validation", "getErrors");
-		String output = headerMessage;
+	public boolean hasErrors() {
+		return isValid(errors);
+	}
+	
+	public void displayErrors(String headerMessage) {
+		String output = headerMessage + "\n";
 		
 		for (int i = 0; i < errors.size(); i++)
 			output += "\n- " + errors.get(i);
 		
+		errors.reset();
 		controller.message(output);
 	}
 	

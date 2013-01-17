@@ -27,11 +27,15 @@ public class ValidationComponent extends Component {
 		 * Here you may add the patterns like bellow.
 		 * 
 		 */
-		patterns.add("", "");
+		patterns.add("phrase", "[a-zA-Z][a-zA-Z ]*");
+		patterns.add("numeric", "[0-9]*");
+		patterns.add("alfanumeric", "[a-zA-Z0-9]*");		
 	}
 	
 	public Boolean validate(LinkedArray data) {
 		Boolean valid = Boolean.TRUE;
+		
+		errors.reset();
 		
 		for (int i = 0; i < data.size(); i++) {
 			String value = (String) data.getKeyByIndex(i);
@@ -39,15 +43,20 @@ public class ValidationComponent extends Component {
 			String msg	 = (String) ((LinkedArray) data.get(value)).get("message");
 			
 			if (patterns.containsKey(rule))
-				valid = valid && useRule(rule, value);
+				if (verify(rule, value))
+					valid = valid && Boolean.TRUE;
+					
+				else {
+					valid = Boolean.FALSE ;
+					setError(msg);
+				}
+			
 			else {
 				valid = Boolean.FALSE;
 				System.out.println("Attribute 'patterns' don't have the rule '" + rule + "'");
 			}
-			
-			if ( ! valid)
-				setError(msg);
 		}
+		
 		return valid;
 	}
 	
@@ -85,7 +94,7 @@ public class ValidationComponent extends Component {
 		return str;
 	}
 	
-	private Boolean useRule(String rule, String value) {
+	private Boolean verify(String rule, String value) {
 		pattern = Pattern.compile((String) patterns.get(rule));
 		matcher = pattern.matcher(normalize(value));
 		
@@ -97,8 +106,8 @@ public class ValidationComponent extends Component {
 	}
 	
 	public LinkedArray getErrors() {
-		LinkedArray tmp = errors;
-		errors.reset();
+		LinkedArray tmp = new LinkedArray();
+		tmp.getTransference(errors);
 		return tmp;
 	}
 	

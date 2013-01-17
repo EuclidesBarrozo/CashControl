@@ -32,7 +32,7 @@ public class People extends HasMany {
 	
 	@Override
 	protected void setValidations() {
-		addValidation("name", "word", "Nomes não devem conter números ou caracteres especiais.");
+		addValidation("name", "phrase", "Nomes não devem conter números ou caracteres especiais.");
 	}
 	
 	public void setTimeInData() {
@@ -45,7 +45,7 @@ public class People extends HasMany {
 	}
 	
 	public boolean save(LinkedArray params, boolean setTime) {
-		if (isValid(params) && validate(params)) {
+		if (isValid(params)) {
 			data = params;
 			LinkedArray complements = checkoutForComplements();
 			

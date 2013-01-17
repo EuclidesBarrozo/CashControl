@@ -30,6 +30,14 @@ public class LinkedArray {
 				this.add(linkedArray.getKeyByIndex(i), linkedArray.getValueByIndex(i));
 	}
 	
+	public void getTransference(LinkedArray linkedArray) {
+		for (int i = 0; i < linkedArray.size(); i++) {
+			Object key = linkedArray.getKeyByIndex(i);
+			Object value = linkedArray.extract(key);
+			this.add(key, value);
+		}
+	}
+	
 	public void add(Object key, Object value) {
 		if ( ! keys.contains(key)) {
 			keys.add(key);
@@ -45,7 +53,7 @@ public class LinkedArray {
 	public void put(Object value) {
 		boolean added = false;
 		
-		for (int i = 0; i < this.size(); i++)
+		for (Integer i = 0; i < this.size(); i++)
 			if ( ! this.containsKey(i)) {
 				this.add(i, value);
 				added = true;
