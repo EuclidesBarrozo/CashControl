@@ -62,7 +62,8 @@ public abstract class Model {
 	public LinkedArray firstBy(String condition) {
 		ArrayList<String> params = new ArrayList<String>();
 		params.add("*");
-		return (LinkedArray) db.select(table, params, "WHERE " + condition).getValueByIndex(0);
+		
+		return (LinkedArray) db.select(table, params, "WHERE " + condition);
 	}
 	
 	public LinkedArray firstById(Integer id) {
@@ -75,6 +76,32 @@ public abstract class Model {
 	
 	public boolean delete(String condition) {
 		return db.delete(table, "WHERE " + condition);
+	}
+	
+	public boolean redundantRegister(LinkedArray param, String[] fields) {
+		LinkedArray filter = new LinkedArray();
+		
+		for (int i = 0; i < param.size(); i++)
+			filter.add(fields[i], param.get(fields[i]));
+		
+		return redundantRegister(filter);
+	}
+	
+	public boolean redundantRegister(LinkedArray param) {
+		data.copy(param);
+		
+		LinkedArray complements = checkoutForComplements();
+		String condition  = "";
+		
+		for (int i = 0; i < data.size(); i++) {
+			String key	 = data.getKeyByIndex(i).toString();
+			String value = data.getValueByIndex(i).toString();
+			
+			condition += key + " = \"" + value + "\"";
+			condition += i < data.size()-1? " and " : "";
+		}
+		
+		return isValid(firstBy(condition));
 	}
 	
 	public void setController(Controller controller) {

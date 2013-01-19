@@ -145,28 +145,24 @@ public class Database {
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet results	= statement.executeQuery(sql);
-			LinkedArray values;
+			LinkedArray values	= new LinkedArray();
 			int i, j, fieldsNum;
-				
+			
 			if (fields.size() == 1 && fields.get(0).equals("*")) {
-				
-				try {	
+				try {
 					ResultSetMetaData meta = results.getMetaData();
 					fieldsNum	= meta.getColumnCount();
 					fields		= new ArrayList<String>();
 					
 					for (i = 1; i <= fieldsNum; i++)
 						fields.add(meta.getColumnName(i));
-					
 				}
 				catch (SQLException exception) {
 					System.out.println("SQL Exception. Failed to execute SQL query! When using " + table + " table.");
 					System.out.println(exception.getMessage());
 				}
-				
 			}
 			
-			values = new LinkedArray();
 			for (i = 0; results.next(); i++) {
 				LinkedArray tmp = new LinkedArray();
 				for (j = 0; j < fields.size(); j++) {
@@ -178,7 +174,7 @@ public class Database {
 				}
 				values.add(i, tmp);
 			}
-				
+			
 			results.close();
 			statement.close();
 			return values;

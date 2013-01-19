@@ -38,6 +38,14 @@ public class LinkedArray {
 		}
 	}
 	
+	public void copy(LinkedArray linkedArray) {
+		for (int i = 0; i < linkedArray.size(); i++) {
+			Object key = linkedArray.getKeyByIndex(i);
+			Object value = linkedArray.get(key);
+			this.add(key, value);
+		}
+	}
+	
 	public void add(Object key, Object value) {
 		if ( ! keys.contains(key)) {
 			keys.add(key);
@@ -88,19 +96,19 @@ public class LinkedArray {
 	}
 		
 	public Object getKeyByIndex(int index) {
-		return keys.get(index);
+		return index <= this.size()? keys.get(index) : null;
 	}
 	
 	public Object getValueByIndex(int index) {
-		return values.get(index);
+		return index <= this.size()? values.get(index) : null;
 	}
 	
 	public Object getKeyByValue(Object value) {
-		return getKeyByIndex(values.indexOf(value));
+		return this.containsValue(value)? getKeyByIndex(values.indexOf(value)) : null;
 	}
 	
 	public Object getValueByKey(Object key) {
-		return getValueByIndex(keys.indexOf(key));
+		return this.containsKey(key)? getValueByIndex(keys.indexOf(key)) : null;
 	}
 	
 	public ArrayList getKeysArray() {

@@ -28,8 +28,10 @@ public class CreateView extends AppView {
 		tmp = str.split(" ");
 		str = "";
 		
-		for (int i = 0; i < tmp.length; i++)
-			str += tmp[i].substring(0, 1).toUpperCase() + tmp[i].substring(1) + " ";
+		for (int i = 0; i < tmp.length; i++) {
+			str += tmp[i].substring(0, 1).toUpperCase() + tmp[i].substring(1).toLowerCase();
+			str += i < tmp.length - 1? " " : "";
+		}
 		
 		return str;
 	}

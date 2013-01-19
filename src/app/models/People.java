@@ -35,18 +35,14 @@ public class People extends HasMany {
 		addValidation("name", "phrase", "Nomes não devem conter números ou caracteres especiais.");
 	}
 	
-	public void setTimeInData() {
-		String time = (String) components.use("DateTime", "rightNow");
-
-		if ( ! data.containsKey(primaryKey))
-			data.add("created", time);
-		
-		data.add("modified", time);
+	@Override
+	public boolean save(LinkedArray params) {
+		return save(params, true);
 	}
 	
 	public boolean save(LinkedArray params, boolean setTime) {
-		if (isValid(params)) {
-			data = params;
+		if (isValid(params) && ! redundantRegister(params)) {
+			data.copy(params);
 			LinkedArray complements = checkoutForComplements();
 			
 			if (setTime)
@@ -77,11 +73,19 @@ public class People extends HasMany {
 			}
 			return super.save(data);
 		}
+		else if (redundantRegister(params, new String[] {"login", "password"}))
+			controller.message("Lamentamos o incoveniente, mas esse cadastro é redundante.\nAbortando operação!");
+		
 		return false;
 	}
 	
-	@Override
-	public boolean save(LinkedArray params) {
-		return save(params, true);
+	public void setTimeInData() {
+		String time = (String) components.use("DateTime", "rightNow");
+
+		if ( ! data.containsKey(primaryKey))
+			data.add("created", time);
+		
+		data.add("modified", time);
 	}
+	
 }
