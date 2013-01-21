@@ -43,6 +43,7 @@ public class People extends HasMany {
 	public boolean save(LinkedArray params, boolean setTime) {
 		if (isValid(params) && ! redundantRegister(params)) {
 			data.copy(params);
+			
 			LinkedArray complements = checkoutForComplements();
 			
 			if (setTime)
@@ -50,6 +51,9 @@ public class People extends HasMany {
 			
 			if (isValid(complements)) {
 				boolean sucess = super.save(data);
+				
+				unsetTimeInData();
+				
 				Integer id = recoverPrimaryKey(data);
 				
 				if ( ! data.containsKey(primaryKey)) {
@@ -73,8 +77,8 @@ public class People extends HasMany {
 			}
 			return super.save(data);
 		}
-		else if (redundantRegister(params, new String[] {"login", "password"}))
-			controller.message("Lamentamos o incoveniente, mas esse cadastro é redundante.\nAbortando operação!");
+		else if (redundantRegister(params))
+			controller.message("Lamentamos o incoveniente, mas este cadastro é redundante.\nAbortando operação...");
 		
 		return false;
 	}
@@ -86,6 +90,11 @@ public class People extends HasMany {
 			data.add("created", time);
 		
 		data.add("modified", time);
+	}
+	
+	public void unsetTimeInData() {
+		data.extract("created");
+		data.extract("modified");
 	}
 	
 }

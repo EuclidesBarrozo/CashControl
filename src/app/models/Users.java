@@ -33,14 +33,13 @@ public class Users extends People {
 	
 	@Override
 	public boolean save(LinkedArray params) {
-		data = params;
-		String password = (String) data.get("password");
-		int name  = ((String) data.get("name")).hashCode();
-		int login = ((String) data.get("login")).hashCode();
+		String password = (String) params.get("password");
+		int name  = ((String) params.get("name")).hashCode();
+		int login = ((String) params.get("login")).hashCode();
 		
-		data.add("password", password.hashCode());
+		params.add("password", password.hashCode());
 		
-		if (super.save(data)) {
+		if (super.save(params)) {
 			LinkedArray info = new LinkedArray();
 			boolean sucess;
 

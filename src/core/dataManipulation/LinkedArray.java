@@ -30,7 +30,7 @@ public class LinkedArray {
 				this.add(linkedArray.getKeyByIndex(i), linkedArray.getValueByIndex(i));
 	}
 	
-	public void getTransference(LinkedArray linkedArray) {
+	public void takeTransference(LinkedArray linkedArray) {
 		for (int i = 0; i < linkedArray.size(); i++) {
 			Object key = linkedArray.getKeyByIndex(i);
 			Object value = linkedArray.extract(key);
@@ -39,11 +39,8 @@ public class LinkedArray {
 	}
 	
 	public void copy(LinkedArray linkedArray) {
-		for (int i = 0; i < linkedArray.size(); i++) {
-			Object key = linkedArray.getKeyByIndex(i);
-			Object value = linkedArray.get(key);
-			this.add(key, value);
-		}
+		this.reset();
+		this.merge(linkedArray);
 	}
 	
 	public void add(Object key, Object value) {
@@ -146,7 +143,7 @@ public class LinkedArray {
 		System.out.println("\nLinkedArray {");
 		
 		if (this.isEmpty())
-			System.out.println("  [ EMPTY ]");
+			System.out.println("\t[ EMPTY ]");
 		else
 			dumpContent(1);
 				
@@ -154,16 +151,18 @@ public class LinkedArray {
 		System.out.println("}\n");
 	}
 	
-	private void dumpContent(int endent) {
-		if (this.isEmpty())
-			System.out.println("  [ EMPTY ]");
+	private void dumpContent(int tabs) {
+		if (this.isEmpty()) {
+			for (int i = 1; i <= tabs; i++) System.out.print("\t");
+			System.out.println("[ EMPTY ]");
+		}
 		else
 			for (int i = 0; i < this.size(); i++) {
 				Object key = keys.get(i);
 				Object value = values.get(i);
 				String output = "";
 				
-				for (int j = 1; j <= endent; j++) System.out.print("\t");
+				for (int j = 1; j <= tabs; j++) System.out.print("\t");
 				
 				output += "(" + key.getClass().getSimpleName() + ")" + "\"" + key.toString() + "\"\t--> ";
 				
@@ -173,9 +172,9 @@ public class LinkedArray {
 				}	
 				else {
 					System.out.println("(" + key.getClass().getSimpleName() + ")" + "\"" + key.toString() + "\" {");
-					((LinkedArray) value).dumpContent(endent + 1);
+					((LinkedArray) value).dumpContent(tabs + 1);
 				
-					for (int j = 1; j <= endent; j++) System.out.print("\t");
+					for (int j = 1; j <= tabs; j++) System.out.print("\t");
 					
 					System.out.println("}");
 				}

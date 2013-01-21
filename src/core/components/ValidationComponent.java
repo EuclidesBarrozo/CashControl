@@ -107,7 +107,7 @@ public class ValidationComponent extends Component {
 	
 	public LinkedArray getErrors() {
 		LinkedArray tmp = new LinkedArray();
-		tmp.getTransference(errors);
+		tmp.takeTransference(errors);
 		return tmp;
 	}
 	

@@ -60,14 +60,12 @@ public abstract class Model {
 	}
 	
 	public LinkedArray firstBy(String condition) {
-		ArrayList<String> params = new ArrayList<String>();
-		params.add("*");
-		
-		return (LinkedArray) db.select(table, params, "WHERE " + condition);
+		LinkedArray tmp = all(condition);
+		return tmp.isEmpty()? tmp : (LinkedArray) tmp.get(0);
 	}
 	
 	public LinkedArray firstById(Integer id) {
-		return firstBy("WHERE " + primaryKey + " = " + id);
+		return firstBy(primaryKey + " = " + id);
 	}
 	
 	public boolean delete(Integer id) {
@@ -89,8 +87,7 @@ public abstract class Model {
 	
 	public boolean redundantRegister(LinkedArray param) {
 		data.copy(param);
-		
-		LinkedArray complements = checkoutForComplements();
+		checkoutForComplements();
 		String condition  = "";
 		
 		for (int i = 0; i < data.size(); i++) {
@@ -223,7 +220,7 @@ public abstract class Model {
 			
 			id = (Integer) firstBy(conditions).get(primaryKey);
 		}
-			
+		
 		return id;
 	}
 	

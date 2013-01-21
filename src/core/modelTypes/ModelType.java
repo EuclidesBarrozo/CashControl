@@ -59,7 +59,7 @@ public abstract class ModelType extends Model {
 	@Override
 	public LinkedArray firstBy(String conditions) {
 		LinkedArray first = super.firstBy(conditions);
-		LinkedArray complements = getComplements((Integer) first.get(primaryKey));	
+		LinkedArray complements = getComplements((Integer) first.get(primaryKey));
 		
 		if (isValid(complements))
 			first.merge(complements);
