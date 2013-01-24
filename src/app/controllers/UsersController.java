@@ -3,22 +3,15 @@
  * and open the template in the editor.
  */
 
-package app.views;
-
-import core.mvc.View;
+package app.controllers;
 
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class AppView extends View {
+public class UsersController extends PeopleController {
+
 	
-	public AppView() {
-//		setLookAndFeel("Nimbus");
-	}
-	
-	@Override
-	public void run() {}
 	
 }

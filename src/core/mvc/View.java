@@ -3,7 +3,10 @@
  * and open the template in the editor.
  */
 
-package core;
+package core.mvc;
+
+import core.dataManipulation.LinkedArray;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -56,6 +59,42 @@ public abstract class View extends javax.swing.JFrame {
 	
 	public void updateController() {
 		updateController(null);
+	}
+	
+	protected void setLookAndFeel(String lookAndFeel) {
+		String view = new Throwable().getStackTrace()[1].getClassName();
+		
+		try {
+			if (lookAndFeel.equals(""))
+				lookAndFeel = "Metal";
+			
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if (lookAndFeel.equalsIgnoreCase(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		}
+		catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(view).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(view).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(view).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(view).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+	}
+	
+	public void message(String text) {
+		JOptionPane.showMessageDialog(null, text);
+	}
+	
+	public String input(String message) {
+		return JOptionPane.showInputDialog(null, message);
 	}
 	
 }

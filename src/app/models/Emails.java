@@ -3,16 +3,20 @@
  * and open the template in the editor.
  */
 
-import app.controllers.AppController;
+package app.models;
+
+import core.modelTypes.BelongsTo;
+
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class AppName extends AppController {
+public class Emails extends BelongsTo {
 
-	public static void main(String args[]) {
-		new AppController().main();
+	@Override
+	protected void setModels() {
+		models = new String[] {"People"};
 	}
 	
 }

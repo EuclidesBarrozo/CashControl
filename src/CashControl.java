@@ -3,22 +3,16 @@
  * and open the template in the editor.
  */
 
-package app.views;
-
-import core.mvc.View;
-
+import app.controllers.AppController;
 /**
  *
  * @author Macário Martins <macariomartinsjunior@gmail.com>
  *
  */
-public class AppView extends View {
-	
-	public AppView() {
-//		setLookAndFeel("Nimbus");
+public class CashControl extends AppController {
+
+	public static void main(String args[]) {
+		new AppController().main();
 	}
-	
-	@Override
-	public void run() {}
 	
 }
